@@ -79,5 +79,5 @@ Same as navbar, every page will display consistent footer with Developer's GitHu
 
 Back-end
 
-Database will be devided into three main sections. User section will contain user names and hashed passwords for enhanced security. Quotes section will store a latin version, english translation and name of author if known.  Third section will contain name of authors, era they lived in and brief description.
+Database will be devided into three main sections. User section will contain user names and hashed  passwords for enhanced security. Quotes section will store a latin version, english translation and name of author if known.  Third section will contain name of authors, era they lived in and brief description.
 Web content will be rendered using Pyhton with Flask framework.
