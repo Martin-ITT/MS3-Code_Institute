@@ -70,7 +70,14 @@ From our strategy plan there were few funcionalities identified in order to sati
 
 ## 1.3 Structure
 
+Front-end
+
 In Vino Veritas will contain structured navbar for easy navigation. Following links will be displayed when no user is logged in. First link Today's quote containig random or selected quote for the day. Second link Quotes will navigate to page displaying all quotes in database and a search bar. Third link will bring user to log in page and fourth will provide user a registration form. Logo in left side of navbar will return to main page with hero image.
 When user is logged in Todays Quote will remain the same. The second page will also contain buttons to add new quote or see users favourites quotes. Third link will read My Quotes where user will find funcionality to add, edit or delete his or her quotes. Fourth link will provide log out funcionality.
 When admin is logged in the navbar will also contain Manage Authors link to maintain the Authors database.
 Same as navbar, every page will display consistent footer with Developer's GitHub link and Copyright section. The right corner will show a name of user who is curently logged in and a delete account function. A message "No user logged in" will read if no active user is looge in.
+
+Back-end
+
+Database will be devided into three main sections. User section will contain user names and hashed passwords for enhanced security. Quotes section will store a latin version, english translation and name of author if known.  Third section will contain name of authors, era they lived in and brief description.
+Web content will be rendered using Pyhton with Flask framework.

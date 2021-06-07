@@ -1,1 +1,3 @@
 Ignore/
+env.py
+__pycache__/
