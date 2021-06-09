@@ -7,6 +7,8 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
+from wtforms import validators
+from wtforms.validators import InputRequired, Length, Email, EqualTo
 if os.path.exists("env.py"):
     import env
 
@@ -18,11 +20,17 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
-class LoginForm(FlaskForm):
-    user_name = StringField('user_name')
-    user_password = PasswordField('user_password')
-    check_password = PasswordField('check_password')
-    user_email = StringField('user_email')
+class RegistrationForm(FlaskForm):
+    user_name = StringField('user_name', validators=[InputRequired(), Length(
+        min=5, max=15, message='Name must be between \
+            %(min)d and %(max)d characters long')])
+    user_password = PasswordField('user_password', validators=[InputRequired(), Length(
+        min=8, max=20, message='Password must be between \
+            %(min)d and %(max)d characters long')])
+    check_password = PasswordField('check_password', validators=[InputRequired(
+        message='*Required'), EqualTo('user_password', message="Passwords don't match")])
+    user_email = StringField('user_email', validators=[InputRequired(), Email(), Length(
+        max=120)])
 
 @app.route("/")
 @app.route("/get_index")
@@ -38,10 +46,16 @@ def get_all_quotes():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    form = LoginForm()
+    form = RegistrationForm()
     
     if form.validate_on_submit():
-        return "<h1> The username is {}. The password is {}. The check is {}. The email is {}.".format(form.user_name.data, form.user_password.data, form.check_password.data, form.user_email.data)
+        
+        
+        return "<h1> The username is {}. The password is {}. The check is {}. \
+            The email is {}. Hash is {}".format(form.user_name.data, \
+                form.user_password.data, form.check_password.data, form.user_email.data, \
+                generate_password_hash(form.user_password.data, \
+                method='pbkdf2:sha512:52000', salt_length=16))
     
     """
     if request.method == "POST":

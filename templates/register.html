@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="center-align indigo-text hide-on-small-only">Register</h2>
+<h3 class="center-align indigo-text hide-on-small-only">Register</h3>
 <h4 class="center-align indigo-text hide-on-med-and-up">Register</h4>
 
 
@@ -16,23 +16,38 @@
                         <div class="input-field col s12 left-align">
                             <i class="fas fa-user-plus prefix white-text"></i>
                             {{ form.user_name(placeholder="Please enter your name") }}
-                            <span class="text-muted grey-text">Must be between 5-20 characters.</span>
+                            <span class="text-muted grey-text">Must be between 5-15 characters.</span>
+                            <ul>
+                                {% for error in form.user_name.errors %}
+                                <li style="color:red;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                     <!-- password -->
                     <div class="row">
                         <div class=" input-field col s12 left-align">
-                            <i class="fas fa-user-lock prefix white-text"></i>
+                            <i class="fas fa-lock-open prefix white-text"></i>
                             {{ form.user_password(placeholder="Please enter password") }}
-                            <span class="text-muted grey-text">Must be at least 8 characters.</span>
+                            <span class="text-muted grey-text">Must be between 8 and 20 characters.</span>
+                            <ul>
+                                {% for error in form.user_password.errors %}
+                                <li style="color:red;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                     <!-- password chceck -->
                     <div class="row">
                         <div class="input-field col s12 left-align">
-                            <i class="fas fa-user-lock prefix white-text"></i>
+                            <i class="fas fa-lock prefix white-text"></i>
                             {{ form.check_password(placeholder="Please re-enter password") }}
-                            <span class="text-muted grey-text">Must be at least 8 characters.</span>
+                            <span class="text-muted grey-text">Passwords must be the same.</span>
+                            <ul>
+                                {% for error in form.check_password.errors %}
+                                <li style="color:red;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                     <!-- email -->
@@ -40,14 +55,18 @@
                         <div class="input-field col s12 left-align">
                             <i class="fas fa-at prefix white-text"></i>
                             {{ form.user_email(placeholder="Please enter valid email address") }}
-                            <span class="text-muted grey-text">Must be at least 8 characters.</span>
+                            <span class="text-muted grey-text">Valid email address is required.</span>
+                            <ul>
+                                {% for error in form.user_email.errors %}
+                                <li style="color:red;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                     <div class="row">
-                        <button type="submit" value="Submit" class="col s8 offset-s2 btn-large text-shadow">
+                        <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
                             Register <i class="fas fa-check"></i>
                         </button>
-                    </div>
                     </div>
                 </form>
             </div>
