@@ -1,16 +1,13 @@
-.fa, .fab, .fad, .fal, .far, .fas {
+.fa, .fab, .fad, .fal, .far, .fas { /* bottle icon jumping up*/
     line-height: 2; /* 1 @ size 601*/
 }
-nav .brand-logo {
+nav .brand-logo { /* navbar text overflow */ 
     font-size: 1.3rem; /* 2. 1*/
 }
-body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-
-  main {
+.card-panel { /* navbar space */
+    margin-bottom: 5rem;
+}
+main {
     padding-top: 30%;
     flex:  0 auto;
   }
