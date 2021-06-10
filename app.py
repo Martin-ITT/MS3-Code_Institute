@@ -140,8 +140,22 @@ def profile(username):
     
     # find user name in mongo using session cookie. [only user_name]
     username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
-    # first to be retrieved on html, second from previous line
-    return render_template("profile.html", user_name=username)
+    
+    #only render if session cookie exist
+    if session['user']:
+        # first to be retrieved on html, second from previous line
+        return render_template("profile.html", user_name=username)
+    
+    return redirect(url_for("login"))
+
+
+@app.route("/logout")
+def logout():
+    # remove user from cookie session
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
