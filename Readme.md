@@ -81,3 +81,22 @@ Back-end
 
 Database will be devided into three main sections. User section will contain user names and hashed  passwords for enhanced security. Quotes section will store a latin version, english translation and name of author if known.  Third section will contain name of authors, era they lived in and brief description.
 Web content will be rendered using Pyhton with Flask framework.
+
+
+testing
+registration form
+user name checked against empty input and not to be less than 5 and more than 15 char
+user name white spaces and special char
+password checked against blank input and not to be less than 8 and more than 20 char
+password against white spaces
+password match checked
+email validator checked for empty input, valid email address and not to be more than 120 char
+
+registration checked for same user name
+registration checked for same email address (diferent names)
+
+
+references
+wtf forms https://www.youtube.com/watch?v=vzaXBm-ZVOQ
+form validation https://stackabuse.com/flask-form-validation-with-flask-wtf
+password comlexity https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964

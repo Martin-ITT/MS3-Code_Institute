@@ -7,10 +7,13 @@ nav .brand-logo { /* navbar text overflow */
 .card-panel { /* navbar space */
     margin-bottom: 5rem;
 }
-input {
+input { /* formm input color*/
     color: white;
 }
-.page-footer {
+.flashes h4 { /* flash messages bar*/
+    line-height: 2;
+}
+.page-footer { /* sticky footer*/
     position:fixed;
     bottom:0;
     left:0;

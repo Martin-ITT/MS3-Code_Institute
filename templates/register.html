@@ -4,7 +4,7 @@
 <h3 class="center-align indigo-text hide-on-small-only">Register</h3>
 <h4 class="center-align indigo-text hide-on-med-and-up">Register</h4>
 
-
+<!-- registration form -->
 <div class="row">
     <div class="col s12 m8 offset-m2">
         <div class="card-panel indigo center-align">
@@ -16,7 +16,7 @@
                         <div class="input-field col s12 left-align">
                             <i class="fas fa-user-plus prefix white-text"></i>
                             {{ form.user_name(placeholder="Please enter your name") }}
-                            <span class="text-muted grey-text">Must be between 5-15 characters.</span>
+                            <span class="text-muted grey-text">Must be between 5-15 characters .</span>
                             <ul>
                                 {% for error in form.user_name.errors %}
                                 <li style="color:red;">{{ error }}</li>
@@ -55,7 +55,7 @@
                         <div class="input-field col s12 left-align">
                             <i class="fas fa-at prefix white-text"></i>
                             {{ form.user_email(placeholder="Please enter valid email address") }}
-                            <span class="text-muted grey-text">Valid email address is required.</span>
+                            <span class="text-muted grey-text">Valid email address is required. Not more than 120 char allowed.</span>
                             <ul>
                                 {% for error in form.user_email.errors %}
                                 <li style="color:red;">{{ error }}</li>
