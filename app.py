@@ -53,16 +53,26 @@ def register():
         existing_user = mongo.db.users.find_one(
             {"user_name": form.user_name.data.lower()})
         
+        existing_email = mongo.db.users.find_one(
+            {"user_email": form.user_email.data.lower()})
+        
         if existing_user:
-            flash("User already exist")
+            flash("User name already exist")
+            return redirect(url_for('register'))
+        
+        if existing_email:
+            flash("Email address already registered")
             return redirect(url_for('register'))
         
         register = {
             "user_name": form.user_name.data.lower(),
-            "password": generate_password_hash(form.user_password.data, \
-                method='pbkdf2:sha512:52000', salt_length=16)
+            "user_email": form.user_email.data.lower(),
+            "user_password": generate_password_hash(form.user_password.data, \
+                method='pbkdf2:sha512:52000', salt_length=16),
+            "favourite_quotes": ""
         }
         mongo.db.users.insert_one(register)
+        flash("User registered succesfully")
         
         """
         return "<h1> The username is {}. The password is {}. The check is {}. \
