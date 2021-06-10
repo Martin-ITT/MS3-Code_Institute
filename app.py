@@ -50,13 +50,27 @@ def register():
     
     if form.validate_on_submit():
         
+        existing_user = mongo.db.users.find_one(
+            {"user_name": form.user_name.data.lower()})
         
+        if existing_user:
+            flash("User already exist")
+            return redirect(url_for('register'))
+        
+        register = {
+            "user_name": form.user_name.data.lower(),
+            "password": generate_password_hash(form.user_password.data, \
+                method='pbkdf2:sha512:52000', salt_length=16)
+        }
+        mongo.db.users.insert_one(register)
+        
+        """
         return "<h1> The username is {}. The password is {}. The check is {}. \
             The email is {}. Hash is {}".format(form.user_name.data, \
                 form.user_password.data, form.check_password.data, form.user_email.data, \
                 generate_password_hash(form.user_password.data, \
                 method='pbkdf2:sha512:52000', salt_length=16))
-    
+    """
     """
     if request.method == "POST":
     
