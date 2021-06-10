@@ -27,12 +27,13 @@ class RegistrationForm(FlaskForm):
         min=5, max=15, message='Name must be between \
             %(min)d and %(max)d characters long')])
     user_password = PasswordField(
-        'user_password', validators=[DataRequired(), Length( min=8, max=20, message='Password \
-            must be between  %(min)d and %(max)d characters long.')])
+        'user_password', validators=[DataRequired(), Length( min=8, max=20, \
+            message='Password must be between  %(min)d and %(max)d characters \
+                long.')])
     check_password = PasswordField('check_password', validators=[EqualTo(
         'user_password', message="Passwords don't match")])
-    user_email = StringField('user_email', validators=[InputRequired(), Email(), Length(
-        max=120)])
+    user_email = StringField('user_email', validators=[InputRequired(), Email(), \
+        Length(max=120)])
   
 class LoginForm(FlaskForm):
     user_name_login = StringField('user_name', validators=[DataRequired(), Length(
@@ -56,24 +57,31 @@ def get_all_quotes():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # refer to registration form
     form = RegistrationForm()
     
+    # POST method
     if form.validate_on_submit():
         
+        # check if username exists
         existing_user = mongo.db.users.find_one(
             {"user_name": form.user_name.data.lower()})
         
+        # check if email exists
         existing_email = mongo.db.users.find_one(
             {"user_email": form.user_email.data.lower()})
         
+        # if username exist
         if existing_user:
             flash("Username already exist")
             return redirect(url_for('register'))
         
+        # if email exists
         if existing_email:
             flash("Email address already registered")
             return redirect(url_for('register'))
         
+        # distionary of input values for mongo 
         register = {
             "user_name": form.user_name.data.lower(),
             "user_email": form.user_email.data.lower(),
@@ -81,14 +89,16 @@ def register():
                 method='pbkdf2:sha512:52000', salt_length=16),
             "favourite_quotes": ""
         }
+        
         # insert user into database
         mongo.db.users.insert_one(register)
+        
         # user cookie session
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
         flash("cookie: {}".format(session['user']))
         
-        return redirect(url_for('get_index', user_name=session['user']))
+        return redirect(url_for('profile', username=session['user']))
         
     return render_template("register.html", form=form)
 
@@ -110,7 +120,7 @@ def login():
                 session["user"] = form.user_name_login.data.lower()
                 flash("Welcome, {}".format(form.user_name_login.data))
                 flash("cookie: {}".format(session['user']))
-                return redirect(url_for('get_index'))
+                return redirect(url_for('profile', username=session['user']))
             
             else:
                 # password dont match
@@ -123,6 +133,15 @@ def login():
             return redirect(url_for('login'))
             
     return render_template("login.html", form=form)
+
+
+@app.route("/profile/<username>", methods=["GET", "POST"])
+def profile(username):
+    
+    # find user name in mongo using session cookie. [only user_name]
+    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    # first to be retrieved on html, second from previous line
+    return render_template("profile.html", user_name=username)
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

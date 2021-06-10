@@ -91,6 +91,7 @@ password checked against blank input and not to be less than 8 and more than 20 
 password against white spaces
 password match checked
 email validator checked for empty input, valid email address and not to be more than 120 char
+session cookie test
 
 registration checked for same user name
 registration checked for same email address (diferent names)
