@@ -33,6 +33,14 @@ class RegistrationForm(FlaskForm):
     user_email = StringField('user_email', validators=[InputRequired(), Email(), Length(
         max=120)])
   
+class LoginForm(FlaskForm):
+    user_name_login = StringField('user_name', validators=[DataRequired(), Length(
+        min=5, max=15, message='Name must be between \
+            %(min)d and %(max)d characters long')])
+    user_password_login = PasswordField(
+        'user_password', validators=[DataRequired(), Length( min=8, max=20, message='Password \
+            must be between  %(min)d and %(max)d characters long.')])
+    
 
 @app.route("/")
 @app.route("/get_index")
@@ -79,33 +87,14 @@ def register():
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
         
-        """
-        return "<h1> The username is {}. The password is {}. The check is {}. \
-            The email is {}. Hash is {}".format(form.user_name.data, \
-                form.user_password.data, form.check_password.data, form.user_email.data, \
-                generate_password_hash(form.user_password.data, \
-                method='pbkdf2:sha512:52000', salt_length=16))
-    """
-    """
-    if request.method == "POST":
-    
-        # check if name/email already registered
-        existing_user = mongo.db.users.find_one(
-            {"user_name": request.form.get("user_name").lower()})
-        existing_email = mongo.db.users.find_one(
-            {"user_password": request.form.get("user_password").lower()})
-        
-        if existing_user or existing_email:
-            flash("Username or password already exist")
-            return redirect("register")
-        
-        register = {
-            "user_name": request.form.get("user_name").lower(),
-            "user_email": request.form.get("user_email").lower(),
-            "user_password": generate_password_hash(request.form.get("user_password"))
-        }
-    """
     return render_template("register.html", form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+     
+    return render_template("login.html", form=form)
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

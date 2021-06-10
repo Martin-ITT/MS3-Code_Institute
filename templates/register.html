@@ -4,74 +4,84 @@
 <h3 class="center-align indigo-text hide-on-small-only">Register</h3>
 <h4 class="center-align indigo-text hide-on-med-and-up">Register</h4>
 
-<!-- registration form -->
-<div class="row">
-    <div class="col s12 m8 offset-m2">
-        <div class="card-panel indigo center-align">
-            <div class="row">
-                <form class="col s12" method="POST" action="{{ url_for('register') }}">
-                    {{ form.csrf_token }}
-                    <!-- username -->
-                    <div class="row">
-                        <div class="input-field col s12 left-align">
-                            <i class="fas fa-user-plus prefix white-text"></i>
-                            {{ form.user_name(placeholder="Please enter your name") }}
-                            <span class="text-muted grey-text">Must be between 5-15 characters .</span>
-                            <ul>
-                                {% for error in form.user_name.errors %}
-                                <li style="color:red;">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
+    <!-- registration form -->
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel indigo center-align">
+                <div class="row">
+                    <form class="col s12" method="POST" action="{{ url_for('register') }}">
+                        {{ form.csrf_token }}
+                        <!-- username -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-user-plus prefix white-text"></i>
+                                {{ form.user_name(placeholder="Please enter your name") }}
+                                <span class="text-muted grey-text">Must be between 5-15 characters .</span>
+                                <ul>
+                                    {% for error in form.user_name.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <!-- password -->
-                    <div class="row">
-                        <div class=" input-field col s12 left-align">
-                            <i class="fas fa-lock-open prefix white-text"></i>
-                            {{ form.user_password(placeholder="Please enter password") }}
-                            <span class="text-muted grey-text">Must be between 8 and 20 characters.</span>
-                            <ul>
-                                {% for error in form.user_password.errors %}
-                                <li style="color:red;">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
+                        <!-- password -->
+                        <div class="row">
+                            <div class=" input-field col s12 left-align">
+                                <i class="fas fa-lock-open prefix white-text"></i>
+                                {{ form.user_password(placeholder="Please enter password") }}
+                                <span class="text-muted grey-text">Must be between 8 and 20 characters.</span>
+                                <ul>
+                                    {% for error in form.user_password.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <!-- password chceck -->
-                    <div class="row">
-                        <div class="input-field col s12 left-align">
-                            <i class="fas fa-lock prefix white-text"></i>
-                            {{ form.check_password(placeholder="Please re-enter password") }}
-                            <span class="text-muted grey-text">Passwords must be the same.</span>
-                            <ul>
-                                {% for error in form.check_password.errors %}
-                                <li style="color:red;">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
+                        <!-- password chceck -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-lock prefix white-text"></i>
+                                {{ form.check_password(placeholder="Please re-enter password") }}
+                                <span class="text-muted grey-text">Passwords must be the same.</span>
+                                <ul>
+                                    {% for error in form.check_password.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <!-- email -->
-                    <div class="row">
-                        <div class="input-field col s12 left-align">
-                            <i class="fas fa-at prefix white-text"></i>
-                            {{ form.user_email(placeholder="Please enter valid email address") }}
-                            <span class="text-muted grey-text">Valid email address is required. Not more than 120 char allowed.</span>
-                            <ul>
-                                {% for error in form.user_email.errors %}
-                                <li style="color:red;">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
+                        <!-- email -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-at prefix white-text"></i>
+                                {{ form.user_email(placeholder="Please enter valid email address") }}
+                                <span class="text-muted grey-text">Valid email address is required. Not more than 120 char allowed.</span>
+                                <ul>
+                                    {% for error in form.user_email.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
-                            Register <i class="fas fa-check"></i>
-                        </button>
-                    </div>
-                </form>
+                        <div class="row">
+                            <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
+                                Register <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel indigo center-align">
+                <h5 class="center-align white-text">Have account?
+                    <a href="{{ url_for('login') }}" class="center-align btn">Log In</a>
+                </h5>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
