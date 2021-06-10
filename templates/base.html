@@ -18,7 +18,7 @@
     <header>
         <nav>
             <div class="nav-wrapper indigo">
-                <a href="{{ url_for('get_index')}}" class="brand-logo"><i class="fas fa-wine-bottle"></i>In Vino Veritas</a>
+                <a href="{{ url_for('get_index') }}" class="brand-logo"><i class="fas fa-wine-bottle"></i>In Vino Veritas</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="#">Today's Quote</a></li>
@@ -36,15 +36,15 @@
         <!-- navbar - mobile slider -->
         <ul class="sidenav" id="mobile-demo">
             <li><h4 class="center-align light-blue-text text-darken-4">In Vino Veritas</h4></li>
+            <li><a href="{{ url_for('get_index') }}">Home</a></li>
             <li><a href="#">Today's Quote</a></li>
-            <li><a href="#">All Quotes</a></li>
+            <li><a href="{{ url_for('get_all_quotes')}}">All Quotes</a></li>
             <li><a href="#">My Quotes</a></li>
             <li><a href="#">Favourite Quotes</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Log Out</a></li>
-            <li><a href="#">Log In</a></li>
-            <li><a href="#">Register</a></li>
-        </ul>
+            <li><a href="{{ url_for('login') }}">Log In</a></li>
+            <li><a href="{{ url_for('register')}}">Register</a></li>
     </header>
     
     <section>
@@ -53,7 +53,7 @@
             {% if messages %}
                 {% for message in messages %}
                     <div class="row flashes">
-                        <div class="col s8 offset-s2">
+                        <div class="col s10 offset-s1">
                             <h4 class="teal lighten-1 white-text center-align">{{ message }}</h4>
                         </div>
                     </div>

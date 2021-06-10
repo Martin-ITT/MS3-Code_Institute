@@ -1,4 +1,5 @@
 import os
+import re
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -38,8 +39,7 @@ class LoginForm(FlaskForm):
         min=5, max=15, message='Name must be between \
             %(min)d and %(max)d characters long')])
     user_password_login = PasswordField(
-        'user_password', validators=[DataRequired(), Length( min=8, max=20, message='Password \
-            must be between  %(min)d and %(max)d characters long.')])
+        'user_password', validators=[DataRequired()])
     
 
 @app.route("/")
@@ -86,6 +86,9 @@ def register():
         # user cookie session
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
+        flash("cookie: {}".format(session['user']))
+        
+        return redirect(url_for('get_index', user_name=session['user']))
         
     return render_template("register.html", form=form)
 
@@ -93,7 +96,32 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-     
+    
+    # on submit check if user exist 
+    if form.validate_on_submit():
+        existing_user = mongo.db.users.find_one(
+            {"user_name": form.user_name_login.data.lower()})
+        flash("user: {}".format(form.user_name_login.data))
+        
+        if existing_user:
+            # check if password match
+            if check_password_hash(existing_user["user_password"], \
+                form.user_password_login.data):
+                session["user"] = form.user_name_login.data.lower()
+                flash("Welcome, {}".format(form.user_name_login.data))
+                flash("cookie: {}".format(session['user']))
+                return redirect(url_for('get_index'))
+            
+            else:
+                # password dont match
+                flash("Incorrect login details-p")
+                return redirect(url_for('login'))
+    
+        else:
+            # incorrect username
+            flash("Incorrect login details-un")
+            return redirect(url_for('login'))
+            
     return render_template("login.html", form=form)
 
 if __name__ == "__main__":
