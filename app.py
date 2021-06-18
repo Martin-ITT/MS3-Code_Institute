@@ -41,7 +41,17 @@ class LoginForm(FlaskForm):
             %(min)d and %(max)d characters long')])
     user_password_login = PasswordField(
         'user_password', validators=[DataRequired()])
-    
+
+class AddQuoteForm(FlaskForm):
+    latin_text = StringField('latin_text', validators=[DataRequired(), Length(
+        min=3, max=150, message='Phrase must be between \
+            %(min)d and %(max)d characters long')])
+    english_text = StringField(
+        'english_text', validators=[DataRequired(), Length( min=3, max=150, \
+            message='Text must be between  %(min)d and %(max)d characters \
+                long.')])
+    author = StringField('author')
+
 
 @app.route("/")
 @app.route("/get_index")
@@ -81,7 +91,7 @@ def register():
             flash("Email address already registered")
             return redirect(url_for('register'))
         
-        # distionary of input values for mongo 
+        # dictionary of input values for mongo 
         register = {
             "user_name": form.user_name.data.lower(),
             "user_email": form.user_email.data.lower(),
@@ -174,6 +184,32 @@ def my_quotes(username):
 def todays_quote():
     
     return render_template("todays_quote.html")
+
+
+@app.route("/add_quote", methods=["GET", "POST"])
+def add_quote():
+    # refer to registration form
+    form = AddQuoteForm()
+    
+    # POST method
+    if form.validate_on_submit():
+        
+        # dictionary of input values for mongo 
+        quote = {
+            "quote_id": "",
+            "latin_text": form.latin_text.data.lower(),
+            "english_text": form.english_text.data.lower(),
+            "added_by": session['user'],
+            "num_of_likes": "0",
+            "author": form.author.data.lower()
+        }
+        
+        # insert user into database
+        mongo.db.quotes.insert_one(quote)
+        
+        return redirect(url_for("my_quotes", username=session['user']))
+        
+    return render_template("add_quote.html", form=form)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,18 @@
     <h3 class="center-align indigo-text hide-on-small-only">{{ user_name.capitalize() }}'s quote</h3>
     <h4 class="center-align indigo-text hide-on-med-and-up">{{ user_name.capitalize() }}'s quote</h4>
 
+    <div class="row">
+        <div class="col s12 m5 offset-m1">
+            <div class="card-panel indigo center-align">
+                <a href="{{ url_for('add_quote') }}" class="center-align btn">Add quote</a>
+            </div>
+        </div>
+        <div class="col s12 m5">
+            <div class="card-panel indigo center-align">
+                    <a href="{{ url_for('register') }}" class="center-align btn">Favourite quotes</a>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         {% for quote in quotes %}

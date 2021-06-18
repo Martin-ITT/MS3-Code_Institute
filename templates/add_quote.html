@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="center-align indigo-text hide-on-small-only">Add quote</h3>
+<h4 class="center-align indigo-text hide-on-med-and-up">Add quote</h4>
+
+    <!-- registration form -->
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel indigo center-align">
+                <div class="row">
+                    <form class="col s12" method="POST" action="{{ url_for('add_quote') }}">
+                        {{ form.csrf_token }}
+                        <!-- username -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-user-plus prefix white-text"></i>
+                                {{ form.latin_text(placeholder="Latin text") }}
+                                <ul>
+                                    {% for error in form.latin_text.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- password -->
+                        <div class="row">
+                            <div class=" input-field col s12 left-align">
+                                <i class="fas fa-lock-open prefix white-text"></i>
+                                {{ form.english_text(placeholder="English text") }}
+                                <ul>
+                                    {% for error in form.english_text.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- password chceck -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-lock prefix white-text"></i>
+                                {{ form.author(placeholder="Author") }}
+                                <ul>
+                                    {% for error in form.author.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
+                                Add quote <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
