@@ -158,6 +158,7 @@ def logout():
     # remove user from cookie session
     flash("You have been logged out")
     session.pop("user")
+    
     return redirect(url_for("login"))
 
 
@@ -167,6 +168,12 @@ def my_quotes(username):
     quotes = mongo.db.quotes.find()
     
     return render_template("my_quotes.html", user_name=username, quotes=quotes)
+
+
+@app.route("/todays_qoute")
+def todays_quote():
+    
+    return render_template("todays_quote.html")
 
 
 if __name__ == "__main__":

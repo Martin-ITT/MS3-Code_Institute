@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
+    <h3 class="center-align indigo-text hide-on-small-only">All quotes</h3>
+    <h4 class="center-align indigo-text hide-on-med-and-up">All quotes</h4>
 
     <div class="row">
         {% for quote in quotes %}
@@ -14,7 +16,7 @@
                         <p class="center-align">"{{ quote.english_text }}"</p>
                     </div>
                     <div class="card-action">
-                        <p class="right-align">Author: {{ quote.author.capitalize() }}</p>
+                        <p class="right-align">Author: {{ quote.author.title() }}</p>
                     </div>
                     <div class="card-action">
                         <p class="right-align">Added by: {{ quote.added_by.capitalize() }}</p>
