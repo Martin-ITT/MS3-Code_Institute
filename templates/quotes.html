@@ -1,14 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h2>qoutes.html</h2>
 
-    {% for quote in quotes %}
-        {{ quote.latin_text }}<br>
-        {{ quote.english_text }}<br>
-        {{ quote.added_by }}<br>
-        {{ quote.author }}<br>
+    <div class="row">
+        {% for quote in quotes %}
+        <div class="col s10 offset-s1">
+            <div class="card">
+                <div class="card-stacked">
+                    <div class="card-action">
+                        <p class="center-align">"{{ quote.latin_text }}"</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="center-align">"{{ quote.english_text }}"</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="right-align">Author: {{ quote.author.capitalize() }}</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="right-align">Added by: {{ quote.added_by.capitalize() }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-    {% endfor %}
+    
     
 {% endblock %}

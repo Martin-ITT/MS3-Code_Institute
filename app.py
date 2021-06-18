@@ -92,6 +92,10 @@ def register():
         
         # insert user into database
         mongo.db.users.insert_one(register)
+        # update int id for user
+        user_counter = int(mongo.db.user_counter.find_one("value"))
+        user_counter = +1
+        mongo.db.tasks.update({"value": user_counter})
         
         # user cookie session
         session["user"] = form.user_name.data.lower()
@@ -155,6 +159,14 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
+
+
+@app.route("/my_qoutes/<username>")
+def my_quotes(username):
+    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    quotes = mongo.db.quotes.find()
+    
+    return render_template("my_quotes.html", user_name=username, quotes=quotes)
 
 
 if __name__ == "__main__":
