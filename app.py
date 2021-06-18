@@ -22,6 +22,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
+# user registration forms
 class RegistrationForm(FlaskForm):
     user_name = StringField('user_name', validators=[DataRequired(), Length(
         min=5, max=15, message='Name must be between \
@@ -34,7 +35,8 @@ class RegistrationForm(FlaskForm):
         'user_password', message="Passwords don't match")])
     user_email = StringField('user_email', validators=[InputRequired(), Email(), \
         Length(max=120)])
-  
+
+# user login form  
 class LoginForm(FlaskForm):
     user_name_login = StringField('user_name', validators=[DataRequired(), Length(
         min=5, max=15, message='Name must be between \
@@ -42,6 +44,7 @@ class LoginForm(FlaskForm):
     user_password_login = PasswordField(
         'user_password', validators=[DataRequired()])
 
+# add quote form
 class AddQuoteForm(FlaskForm):
     latin_text = StringField('latin_text', validators=[DataRequired(), Length(
         min=3, max=150, message='Phrase must be between \
@@ -53,18 +56,21 @@ class AddQuoteForm(FlaskForm):
     author = StringField('author')
 
 
+# index route
 @app.route("/")
 @app.route("/get_index")
 def get_index():
     return render_template("index.html")
 
 
+# all quotes route
 @app.route("/get_all_quotes")
 def get_all_quotes():
     quotes = mongo.db.quotes.find()
     return render_template("quotes.html", quotes=quotes)
 
 
+# user registration
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # refer to registration form
@@ -102,11 +108,7 @@ def register():
         
         # insert user into database
         mongo.db.users.insert_one(register)
-        # update int id for user
-        user_counter = int(mongo.db.user_counter.find_one("value"))
-        user_counter = +1
-        mongo.db.tasks.update({"value": user_counter})
-        
+      
         # user cookie session
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
@@ -117,6 +119,7 @@ def register():
     return render_template("register.html", form=form)
 
 
+# user login route
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -149,6 +152,7 @@ def login():
     return render_template("login.html", form=form)
 
 
+# user profile route
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     
@@ -163,6 +167,7 @@ def profile(username):
     return redirect(url_for("login"))
 
 
+# user logout route
 @app.route("/logout")
 def logout():
     # remove user from cookie session
@@ -172,6 +177,22 @@ def logout():
     return redirect(url_for("login"))
 
 
+# delete user account page route
+@app.route("/delete_page")
+def delete_page():
+    
+    return render_template("delete_page.html")
+
+
+# delete user account funcionality
+@app.route("/delete_user")
+def delete_user():
+    
+    flash("Account deleted")
+    mongo.db.users.delete_one({"user_name": session["user"]})
+    return redirect(url_for("logout"))
+
+# user's quotes route
 @app.route("/my_qoutes/<username>")
 def my_quotes(username):
     username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
@@ -180,12 +201,14 @@ def my_quotes(username):
     return render_template("my_quotes.html", user_name=username, quotes=quotes)
 
 
+# today's qoute route
 @app.route("/todays_qoute")
 def todays_quote():
     
     return render_template("todays_quote.html")
 
 
+# add qoute route
 @app.route("/add_quote", methods=["GET", "POST"])
 def add_quote():
     # refer to registration form

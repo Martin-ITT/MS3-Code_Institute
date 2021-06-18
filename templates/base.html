@@ -80,7 +80,11 @@
         <div class="footer-copyright">
             <div class="container">
                 © 2021 In Vino Veritas
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                {% if session.user %}
+                <a class="grey-text text-lighten-4 right" href="#!">Logged in as {{ session.user.title() }}</a>
+                {% else %}
+                <a class="grey-text text-lighten-4 right" href="#!">No user logged in</a>
+                {% endif %}
             </div>
         </div>
     </footer>
