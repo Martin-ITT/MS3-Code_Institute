@@ -22,6 +22,24 @@
                         <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
                     </div>
                 </div>
+                {% if session.user %}
+                    <div class="col s5 offset-s1">
+                        <div class="row">
+                            <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}" method="POST">
+                                <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
+                                    Favourite <i class="fas fa-heart"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col s5">
+                        <div class="row">
+                            <div class="col s8 offset-s2 btn-large text-shadow">
+                                Number of likes <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                    </div>
+                 {% endif %}
             </div>
         </div>
         {% endfor %}

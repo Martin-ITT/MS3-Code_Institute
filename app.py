@@ -70,6 +70,19 @@ def get_all_quotes():
     return render_template("quotes.html", quotes=quotes)
 
 
+@app.route("/add_to_favourites", methods=['POST'])
+def add_to_favourites():
+    
+    username = request.args.get('username')
+    id = request.args.get('id')
+    mongo.db.quotes.update_one({'_id': ObjectId(id)}, {'$push': {'users_liked': username}}, upsert = True)
+    flash(id)
+    flash(username)
+    flash("Record updated")
+    
+    return redirect(url_for('get_all_quotes'))
+
+
 # user registration
 @app.route("/register", methods=["GET", "POST"])
 def register():
