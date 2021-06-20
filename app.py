@@ -1,7 +1,7 @@
 import os
 # import re
 from flask import (
-    Flask, flash, render_template,
+    Flask, config, flash, render_template,
     redirect, request, session, url_for)
 from flask_change_password import (
     ChangePassword, ChangePasswordForm, SetPasswordForm)
@@ -45,6 +45,16 @@ class LoginForm(FlaskForm):
             %(min)d and %(max)d characters long')])
     user_password_login = PasswordField(
         'user_password', validators=[DataRequired()])
+    
+# change password form  
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('current_password', validators=[DataRequired()])
+    new_password = PasswordField(
+        'new_password', validators=[DataRequired(), Length( min=8, max=20, \
+            message='Password must be between  %(min)d and %(max)d characters \
+                long.')])
+    confirm_new_password = PasswordField('confirm_new_password', validators=[EqualTo(
+        'new_password', message="Passwords don't match")])
 
 # add quote form
 class AddQuoteForm(FlaskForm):
@@ -57,6 +67,9 @@ class AddQuoteForm(FlaskForm):
                 long.')])
     author = StringField('author')
 
+flask_change_password = ChangePassword(min_password_length=10, rules=dict(
+    long_password_override=2))
+flask_change_password.init_app(app)
 
 # index route
 @app.route("/")
@@ -135,7 +148,7 @@ def register():
         # user cookie session
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
-        flash("cookie: {}".format(session['user']))
+        # flash("cookie: {}".format(session['user']))
         
         return redirect(url_for('profile', username=session['user']))
         
@@ -157,10 +170,11 @@ def login():
             # check if password match
             if check_password_hash(existing_user["user_password"], \
                 form.user_password_login.data):
-                session["user"] = form.user_name_login.data.lower()
-                flash("Welcome, {}".format(form.user_name_login.data))
-                # flash("cookie: {}".format(session['user']))
-                return redirect(url_for('profile', username=session['user']))
+                
+                    session["user"] = form.user_name_login.data.lower()
+                    flash("Welcome, {}".format(form.user_name_login.data))
+                    # flash("cookie: {}".format(session['user']))
+                    return redirect(url_for('profile', username=session['user']))
             
             else:
                 # password dont match
@@ -188,6 +202,32 @@ def profile(username):
         return render_template("profile.html", user_name=username)
     
     return redirect(url_for("login"))
+
+
+# change password
+@app.route("/change_password", methods=["GET", "POST"])
+def change_password():
+    form = ChangePasswordForm()
+    username = mongo.db.users.find_one({"user_name": session["user"]})
+    # POST method
+    if form.validate_on_submit():
+        # flash("current user: {}".format(username))
+        
+        # check if password match
+        if check_password_hash(username["user_password"], \
+            form.current_password.data):
+            flash("Password updated!")
+            # generate new password hash
+            new_password = generate_password_hash(form.new_password.data, \
+                method='pbkdf2:sha512:52000', salt_length=16)
+            mongo.db.users.update_one({'user_name': username['user_name']}, \
+                {"$set" :{'user_password': new_password}})
+        
+        else:
+            flash("Password not changed - incorrect old pasword provided!")
+        return redirect(url_for('profile', username=session['user']))
+
+    return render_template("change_password.html", form=form)
 
 
 # user logout route

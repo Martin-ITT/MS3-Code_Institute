@@ -90,6 +90,7 @@ user name white spaces and special char
 password checked against blank input and not to be less than 8 and more than 20 char
 password against white spaces
 password match checked
+password change - check for error messages
 email validator checked for empty input, valid email address and not to be more than 120 char
 session cookie test - user logged / registered in
 
