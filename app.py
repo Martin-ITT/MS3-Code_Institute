@@ -264,6 +264,16 @@ def my_quotes(username):
     return render_template("my_quotes.html", user_name=username, quotes=quotes)
 
 
+# user's favourite quotes route
+@app.route("/favourite_quotes/<username>")
+def favourite_quotes(username):
+    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    quotes = mongo.db.quotes.find()
+    
+    return render_template("favourite_quotes.html", user_name=username, quotes=quotes)
+
+
+
 # today's qoute route
 @app.route("/todays_qoute")
 def todays_quote():
