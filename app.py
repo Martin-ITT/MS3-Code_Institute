@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote
 # import re
 from flask import (
     Flask, config, flash, render_template,
@@ -307,6 +308,15 @@ def add_quote():
         return redirect(url_for("my_quotes", username=session['user']))
         
     return render_template("add_quote.html", form=form)
+
+
+# update quote
+@app.route("/change_quote/<quote_id>", methods=["GET", "POST"])
+def change_quote(quote_id):
+    form = AddQuoteForm()
+    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    
+    return render_template("change_quote.html", quote=quote, form=form)
 
 
 if __name__ == "__main__":

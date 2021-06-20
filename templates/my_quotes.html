@@ -5,40 +5,50 @@
     <h4 class="center-align indigo-text hide-on-med-and-up">{{ user_name.capitalize() }}'s quote - added by</h4>
 
     <div class="row">
-        <div class="col s12 m5 offset-m1">
+        <div class="col s10 offset-s1">
             <div class="card-panel indigo center-align">
                 <a href="{{ url_for('add_quote') }}" class="center-align btn">Add quote</a>
-            </div>
-        </div>
-        <div class="col s12 m5">
-            <div class="card-panel indigo center-align">
-                    <a href="{{ url_for('favourite_quotes', username=session['user']) }}" class="center-align btn">Favourite quotes</a>
             </div>
         </div>
     </div>
 
     <div class="row">
         {% for quote in quotes %}
-            {% if quote.added_by == user_name.lower() %}
-                <div class="col s10 offset-s1">
-                    <div class="card">
-                        <div class="card-stacked">
-                            <div class="card-action">
-                                <p class="center-align">"{{ quote.latin_text.title() }}"</p>
-                            </div>
-                            <div class="card-action">
-                                <p class="center-align">"{{ quote.english_text.title() }}"</p>
-                            </div>
-                            <div class="card-action">
-                                <p class="right-align">Author: {{ quote.author.title() }}</p>
-                            </div>
-                            <div class="card-action">
-                                <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
-                            </div>
-                        </div>
+        {% if quote.added_by == user_name.lower() %}
+        <div class="col s10 offset-s1">
+            <div class="card">
+                <div class="card-stacked">
+                    <div class="card-action">
+                        <p class="center-align">"{{ quote.latin_text.title() }}"</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="center-align">"{{ quote.english_text.title() }}"</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="right-align">Author: {{ quote.author.title() }}</p>
+                    </div>
+                    <div class="card-action">
+                        <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
                     </div>
                 </div>
-            {% endif %}
+                <!-- display edit section -->
+                <div class="col s6">
+                    <div class="row">
+                        <a href="{{ url_for('change_quote', quote_id=quote._id) }}" class="col s10 offset-s1 btn-large text-shadow">
+                            Edit <i class="fas fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="row">
+                        <a href="{{ url_for('get_index') }}" class="col s10 offset-s1 btn-large text-shadow">
+                            Delete <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
     
