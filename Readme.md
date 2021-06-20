@@ -96,6 +96,9 @@ session cookie test - user logged / registered in
 registration checked for same user name
 registration checked for same email address (diferent names)
 
+add like
+remove like
+num of likes - various users
 
 references
 wtf forms https://www.youtube.com/watch?v=vzaXBm-ZVOQ

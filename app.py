@@ -1,8 +1,10 @@
 import os
-import re
+# import re
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
+from flask_change_password import (
+    ChangePassword, ChangePasswordForm, SetPasswordForm)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -69,16 +71,24 @@ def get_all_quotes():
     quotes = mongo.db.quotes.find()
     return render_template("quotes.html", quotes=quotes)
 
-
+# add quote to favourites
 @app.route("/add_to_favourites", methods=['POST'])
 def add_to_favourites():
     
     username = request.args.get('username')
     id = request.args.get('id')
-    mongo.db.quotes.update_one({'_id': ObjectId(id)}, {'$push': {'users_liked': username}}, upsert = True)
-    flash(id)
-    flash(username)
-    flash("Record updated")
+    mongo.db.quotes.update_one({'_id': ObjectId(
+        id)}, {'$push': {'users_liked': username}}, upsert = True)
+    
+    return redirect(url_for('get_all_quotes'))
+
+# remove favourite quote
+@app.route("/remove_from_favourites", methods=['POST'])
+def remove_from_favourites():
+    
+    username = request.args.get('username')
+    id = request.args.get('id')
+    mongo.db.quotes.update_one({'_id': ObjectId(id)}, {'$pull': {'users_liked': username}})
     
     return redirect(url_for('get_all_quotes'))
 
@@ -141,7 +151,7 @@ def login():
     if form.validate_on_submit():
         existing_user = mongo.db.users.find_one(
             {"user_name": form.user_name_login.data.lower()})
-        flash("user: {}".format(form.user_name_login.data))
+        # flash("user: {}".format(form.user_name_login.data))
         
         if existing_user:
             # check if password match
@@ -149,7 +159,7 @@ def login():
                 form.user_password_login.data):
                 session["user"] = form.user_name_login.data.lower()
                 flash("Welcome, {}".format(form.user_name_login.data))
-                flash("cookie: {}".format(session['user']))
+                # flash("cookie: {}".format(session['user']))
                 return redirect(url_for('profile', username=session['user']))
             
             else:
@@ -237,7 +247,8 @@ def add_quote():
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
             "num_of_likes": "0",
-            "author": form.author.data.lower()
+            "author": form.author.data.lower(),
+            "users_liked": []
         }
         
         # insert user into database

@@ -22,24 +22,45 @@
                         <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
                     </div>
                 </div>
-                {% if session.user %}
-                    <div class="col s5 offset-s1">
-                        <div class="row">
-                            <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}" method="POST">
-                                <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
-                                    Favourite <i class="fas fa-heart"></i>
-                                </button>
-                            </form>
+                {% if not session.user %}
+                <!-- display num of like when no user logged in -->
+                <div class="col s5 right">
+                    <div class="row">
+                        <div class="col s8 offset-s2 btn-large text-shadow">
+                            {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
                         </div>
                     </div>
+                </div>
+                {% endif %}
+                {% if session.user %}
                     <div class="col s5">
                         <div class="row">
+                            <!-- user already liked quote -->
+                            {% if session['user'] in quote.users_liked %}
+                            <form action="{{ url_for('remove_from_favourites', username=session['user'], id=quote._id) }}" method="POST">
+                                <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
+                                    Remove favourite <i class="fas fa-heart red-text"></i>
+                                </button>
+                            </form>
+                            {% else %}
+                            <!-- user already has not liked yet -->
+                            <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}" method="POST">
+                                <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
+                                    Add favourite<i class="fas fa-heart white-text"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col s5 right">
+                        <div class="row">
                             <div class="col s8 offset-s2 btn-large text-shadow">
-                                Number of likes <i class="fas fa-heart"></i>
+                                {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
                             </div>
                         </div>
                     </div>
-                 {% endif %}
+                    {% endif %}
+                    
             </div>
         </div>
         {% endfor %}
