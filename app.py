@@ -27,7 +27,6 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 censor = Censor(app=app)
-# censor.import_wordlist("bad.txt")
 
 # user registration forms
 class RegistrationForm(FlaskForm):
@@ -71,7 +70,7 @@ class AddQuoteForm(FlaskForm):
             message='Text must be between  %(min)d and %(max)d characters \
                 long.')])
     author = StringField('author')
-
+"""
 def update_quote_counter():
     
     quote_counter = mongo.db.quote_counter.find_one()
@@ -79,12 +78,13 @@ def update_quote_counter():
     counter_value += 1
     mongo.db.quote_counter.update_one(
         {'_id': quote_counter['_id']}, {'$set': {'id': counter_value}})
+"""
 
 # index route
 @app.route("/")
 @app.route("/get_index")
 def get_index():
-    update_quote_counter()
+
     return render_template("index.html")
 
 
@@ -94,6 +94,14 @@ def get_all_quotes():
     quotes = mongo.db.quotes.find()
     return render_template("quotes.html", quotes=quotes)
 
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    query = request.form.get("query")
+    quotes = mongo.db.quotes.find({"$text": {"$search": query}})
+    return render_template("quotes.html", quotes=quotes)
+    
+    
 # add quote to favourites
 @app.route("/add_to_favourites", methods=['POST'])
 def add_to_favourites():
@@ -296,7 +304,7 @@ def todays_quote():
 @app.route("/random_qoute")
 def random_quote():
     quotes = mongo.db.quotes.find()
-    random_id = random.randint(quotes.count() - 1)
+    random_id = random.randint(quotes.count())
     
     return render_template("random_quote.html", quotes=quotes, random_id=random_id)
 
@@ -306,14 +314,12 @@ def random_quote():
 def add_quote():
     # refer to registration form
     form = AddQuoteForm()
-    quote_counter = mongo.db.quote_counter.find_one()
     
     # POST method
     if form.validate_on_submit():
         
         # dictionary of input values for mongo 
         quote = {
-            "quote_id": quote_counter['id'],
             "latin_text": form.latin_text.data.lower(),
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
@@ -323,7 +329,7 @@ def add_quote():
         
         # insert user into database
         mongo.db.quotes.insert_one(quote)
-        update_quote_counter()
+        # update_quote_counter()
         return redirect(url_for("my_quotes", username=session['user']))
         
     return render_template("add_quote.html", form=form)
@@ -363,7 +369,7 @@ def delete_quote_page(quote_id):
     return render_template("delete_quote_page.html", quote=quote)
 
 
-# delete user account funcionality
+# delete quote funcionality
 @app.route("/delete_quote/<quote_id>")
 def delete_quote(quote_id):
     flash("Quote deleted")
