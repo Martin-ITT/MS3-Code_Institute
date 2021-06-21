@@ -48,8 +48,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <button type="submit" class="col s8 offset-s2 btn-large text-shadow">
-                                Save quote <i class="fas fa-edit"></i>
+                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow">
+                            Cancel <i class="fas fa-backspace"></i>
+                            </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                            Save quote <i class="fas fa-edit"></i>
                             </button>
                         </div>
                     </form>

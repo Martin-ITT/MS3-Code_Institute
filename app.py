@@ -316,6 +316,25 @@ def change_quote(quote_id):
     form = AddQuoteForm()
     quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
     
+    # POST method
+    if form.validate_on_submit():
+        
+        # dictionary of input values for mongo 
+        submit = {
+            "quote_id": "",
+            "latin_text": form.latin_text.data.lower(),
+            "english_text": form.english_text.data.lower(),
+            "added_by": session['user'],
+            "num_of_likes": "0",
+            "author": form.author.data.lower(),
+            "users_liked": []
+        }
+        
+        # insert user into database
+        mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
+        flash("Quote updated")
+        return redirect(url_for("my_quotes", username=session['user']))
+    
     return render_template("change_quote.html", quote=quote, form=form)
 
 
