@@ -68,11 +68,6 @@ class AddQuoteForm(FlaskForm):
             message='Text must be between  %(min)d and %(max)d characters \
                 long.')])
     author = StringField('author')
-""" 
-flask_change_password = ChangePassword(min_password_length=10, rules=dict(
-    long_password_override=2))
-flask_change_password.init_app(app)
-"""
 
 def update_quote_counter():
     
@@ -299,6 +294,7 @@ def todays_quote():
 def random_quote():
     quotes = mongo.db.quotes.find()
     random_id = random.randint(quotes.count() - 1)
+    flash(random_id)
     
     return render_template("random_quote.html", quotes=quotes, random_id=random_id)
 
@@ -308,13 +304,14 @@ def random_quote():
 def add_quote():
     # refer to registration form
     form = AddQuoteForm()
+    quote_counter = mongo.db.quote_counter.find_one()
     
     # POST method
     if form.validate_on_submit():
         
         # dictionary of input values for mongo 
         quote = {
-            "quote_id": "",
+            "quote_id": quote_counter['id'],
             "latin_text": form.latin_text.data.lower(),
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
@@ -324,7 +321,7 @@ def add_quote():
         
         # insert user into database
         mongo.db.quotes.insert_one(quote)
-        
+        update_quote_counter()
         return redirect(url_for("my_quotes", username=session['user']))
         
     return render_template("add_quote.html", form=form)

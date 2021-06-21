@@ -6,7 +6,7 @@
 
     <div class="row">
         {% for quote in quotes %}
-            {% if quote.quote_id|int == random_id %}
+            {% if loop.index -1 == random_id %}
                 <div class="col s10 offset-s1">
                     <div class="card">
                         <div class="card-stacked">
