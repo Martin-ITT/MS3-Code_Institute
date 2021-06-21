@@ -14,6 +14,7 @@ from wtforms import validators
 from wtforms.validators import (
     InputRequired, Length, Email, EqualTo, DataRequired)
 from numpy import random
+import datetime
 if os.path.exists("env.py"):
     import env
 
@@ -288,9 +289,18 @@ def favourite_quotes(username):
 @app.route("/todays_qoute")
 def todays_quote():
     quotes = mongo.db.quotes.find()
+    day = datetime.datetime.now().day
+    
+    return render_template("todays_quote.html", quotes=quotes, day=day)
+
+
+# random qoute route
+@app.route("/random_qoute")
+def random_quote():
+    quotes = mongo.db.quotes.find()
     random_id = random.randint(quotes.count() - 1)
     
-    return render_template("todays_quote.html", quotes=quotes, random_id=random_id)
+    return render_template("random_quote.html", quotes=quotes, random_id=random_id)
 
 
 # add qoute route

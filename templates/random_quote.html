@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h3 class="center-align indigo-text hide-on-small-only">Random quote</h3>
+    <h4 class="center-align indigo-text hide-on-med-and-up">Random quote</h4>
+
+    <div class="row">
+        {% for quote in quotes %}
+            {% if quote.quote_id|int == random_id %}
+                <div class="col s10 offset-s1">
+                    <div class="card">
+                        <div class="card-stacked">
+                            <div class="card-action">
+                                <p class="center-align">"{{ quote.latin_text.title() }}"</p>
+                            </div>
+                            <div class="card-action">
+                                <p class="center-align">"{{ quote.english_text.title() }}"</p>
+                            </div>
+                            <div class="card-action">
+                                <p class="right-align">Author: {{ quote.author.title() }}</p>
+                            </div>
+                            <div class="card-action">
+                                <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+{% endblock %}

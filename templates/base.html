@@ -22,6 +22,7 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{{ url_for('todays_quote') }}">Today's Quote</a></li>
+                    <li><a href="{{ url_for('random_quote') }}">Random Quote</a></li>
                     <li><a href="{{ url_for('get_all_quotes')}}">All Quotes</a></li>
                     <!-- display only when user logged in -->
                     {% if session.user %}
@@ -42,6 +43,7 @@
             <li><h4 class="center-align light-blue-text text-darken-4">In Vino Veritas</h4></li>
             <li><a href="{{ url_for('get_index') }}">Home</a></li>
             <li><a href="{{ url_for('todays_quote') }}">Today's Quote</a></li>
+            <li><a href="{{ url_for('random_quote') }}">Random Quote</a></li>
             <li><a href="{{ url_for('get_all_quotes')}}">All Quotes</a></li>
             {% if session.user %}
                 <li><a href="{{ url_for('my_quotes', username=session['user']) }}">My Quotes</a></li>
