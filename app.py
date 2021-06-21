@@ -1,6 +1,5 @@
 import os
 from urllib.parse import quote
-# import re
 from flask import (
     Flask, config, flash, render_template,
     redirect, request, session, url_for)
@@ -14,6 +13,7 @@ from wtforms import StringField, PasswordField
 from wtforms import validators
 from wtforms.validators import (
     InputRequired, Length, Email, EqualTo, DataRequired)
+from numpy import random
 if os.path.exists("env.py"):
     import env
 
@@ -67,15 +67,25 @@ class AddQuoteForm(FlaskForm):
             message='Text must be between  %(min)d and %(max)d characters \
                 long.')])
     author = StringField('author')
-
+""" 
 flask_change_password = ChangePassword(min_password_length=10, rules=dict(
     long_password_override=2))
 flask_change_password.init_app(app)
+"""
+
+def update_quote_counter():
+    
+    quote_counter = mongo.db.quote_counter.find_one()
+    counter_value = int(quote_counter['id'])
+    counter_value += 1
+    mongo.db.quote_counter.update_one(
+        {'_id': quote_counter['_id']}, {'$set': {'id': counter_value}})
 
 # index route
 @app.route("/")
 @app.route("/get_index")
 def get_index():
+    update_quote_counter()
     return render_template("index.html")
 
 
@@ -274,12 +284,13 @@ def favourite_quotes(username):
     return render_template("favourite_quotes.html", user_name=username, quotes=quotes)
 
 
-
 # today's qoute route
 @app.route("/todays_qoute")
 def todays_quote():
+    quotes = mongo.db.quotes.find()
+    random_id = random.randint(quotes.count() - 1)
     
-    return render_template("todays_quote.html")
+    return render_template("todays_quote.html", quotes=quotes, random_id=random_id)
 
 
 # add qoute route
@@ -297,9 +308,8 @@ def add_quote():
             "latin_text": form.latin_text.data.lower(),
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
-            "num_of_likes": "0",
             "author": form.author.data.lower(),
-            "users_liked": []
+            "users_liked": [""]
         }
         
         # insert user into database
@@ -321,13 +331,12 @@ def change_quote(quote_id):
         
         # dictionary of input values for mongo 
         submit = {
-            "quote_id": "",
+            "quote_id": quote['quote_id'],
             "latin_text": form.latin_text.data.lower(),
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
-            "num_of_likes": "0",
             "author": form.author.data.lower(),
-            "users_liked": []
+            "users_liked": quote['users_liked']
         }
         
         # insert user into database
@@ -336,6 +345,21 @@ def change_quote(quote_id):
         return redirect(url_for("my_quotes", username=session['user']))
     
     return render_template("change_quote.html", quote=quote, form=form)
+
+
+# delete quote page route
+@app.route("/delete_quote_page/<quote_id>", methods=['GET','POST'])
+def delete_quote_page(quote_id):
+    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    return render_template("delete_quote_page.html", quote=quote)
+
+
+# delete user account funcionality
+@app.route("/delete_quote/<quote_id>")
+def delete_quote(quote_id):
+    flash("Quote deleted")
+    mongo.db.quotes.delete_one({"_id": ObjectId(quote_id)})
+    return redirect(url_for("my_quotes", username=session['user']))
 
 
 if __name__ == "__main__":
