@@ -13,6 +13,7 @@ from wtforms import StringField, PasswordField
 from wtforms import validators
 from wtforms.validators import (
     InputRequired, Length, Email, EqualTo, DataRequired)
+from flask_censor import Censor
 from numpy import random
 import datetime
 if os.path.exists("env.py"):
@@ -25,6 +26,8 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+censor = Censor(app=app)
+# censor.import_wordlist("bad.txt")
 
 # user registration forms
 class RegistrationForm(FlaskForm):
@@ -294,7 +297,6 @@ def todays_quote():
 def random_quote():
     quotes = mongo.db.quotes.find()
     random_id = random.randint(quotes.count() - 1)
-    flash(random_id)
     
     return render_template("random_quote.html", quotes=quotes, random_id=random_id)
 

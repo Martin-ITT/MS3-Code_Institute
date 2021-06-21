@@ -11,16 +11,16 @@
                     <div class="card">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <p class="center-align">"{{ quote.latin_text.title() }}"</p>
+                                <p class="center-align">"{{ quote.latin_text.title()|censor }}"</p>
                             </div>
                             <div class="card-action">
-                                <p class="center-align">"{{ quote.english_text.title() }}"</p>
+                                <p class="center-align">"{{ quote.english_text.title()|censor }}"</p>
                             </div>
                             <div class="card-action">
-                                <p class="right-align">Author: {{ quote.author.title() }}</p>
+                                <p class="right-align">Author: {{ quote.author.title()|censor }}</p>
                             </div>
                             <div class="card-action">
-                                <p class="right-align">Added by: {{ quote.added_by.title() }}</p>
+                                <p class="right-align">Added by: {{ quote.added_by.title()|censor }}</p>
                             </div>
                         </div>
                     </div>
