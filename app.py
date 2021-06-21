@@ -3,8 +3,6 @@ from urllib.parse import quote
 from flask import (
     Flask, config, flash, render_template,
     redirect, request, session, url_for)
-from flask_change_password import (
-    ChangePassword, ChangePasswordForm, SetPasswordForm)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -196,12 +194,12 @@ def login():
             
             else:
                 # password dont match
-                flash("Incorrect login details-p")
+                flash("Incorrect login details")
                 return redirect(url_for('login'))
     
         else:
             # incorrect username
-            flash("Incorrect login details-un")
+            flash("Incorrect login details")
             return redirect(url_for('login'))
             
     return render_template("login.html", form=form)
