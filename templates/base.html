@@ -81,7 +81,7 @@
     <footer class="page-footer indigo">
         <div class="footer-copyright">
             <div class="container">
-                © 2021 In Vino Veritas
+                © <span id="year"></span> Vino Veritas
                 {% if session.user %}
                 <a class="grey-text text-lighten-4 right" href="#!">Logged in as {{ session.user.title() }}</a>
                 {% else %}

@@ -4,14 +4,14 @@
 <h3 class="center-align indigo-text hide-on-small-only">Add quote</h3>
 <h4 class="center-align indigo-text hide-on-med-and-up">Add quote</h4>
 
-    <!-- registration form -->
+    <!-- add quote form -->
     <div class="row">
         <div class="col s12 m8 offset-m2">
             <div class="card-panel indigo center-align">
                 <div class="row">
                     <form class="col s12" method="POST" action="{{ url_for('add_quote') }}">
                         {{ form.csrf_token }}
-                        <!-- username -->
+                        <!-- latin -->
                         <div class="row">
                             <div class="input-field col s12 left-align">
                                 <i class="fas fa-comment prefix white-text"></i>
@@ -23,7 +23,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- password -->
+                        <!-- english -->
                         <div class="row">
                             <div class=" input-field col s12 left-align">
                                 <i class="fas fa-comment-dots prefix white-text"></i>
@@ -35,7 +35,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- password chceck -->
+                        <!-- author -->
                         <div class="row">
                             <div class="input-field col s12 left-align">
                                 <i class="fas fa-user-graduate prefix white-text"></i>
@@ -47,7 +47,17 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- display buttons on small -->
+                        <div class="row hide-on-med-and-up">
+                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow">
+                                <i class="fas fa-backspace"></i>
+                                </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                        <!-- display buttons on med and large -->
+                        <div class="row hide-on-small-only">
                             <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow">
                                 Cancel <i class="fas fa-backspace"></i>
                                 </a>
@@ -60,5 +70,6 @@
             </div>
         </div>
     </div>
+    <div class="divider"></div>
 
 {% endblock %}

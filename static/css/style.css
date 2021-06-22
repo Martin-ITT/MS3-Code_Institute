@@ -28,8 +28,18 @@ nav .brand-logo {
     }
 }
 .divider { /* push footer*/
-    margin-bottom: 50px;
+    margin-bottom: 100px;
+    max-height: 0px;
 }
 #push_down {
     margin-top: 15vh;
+}
+.row {
+    margin-bottom: 5px;
+}
+.card-panel {
+    margin-bottom: 5px;
+}
+@media only screen and (min-width: 768px) {
+    
 }

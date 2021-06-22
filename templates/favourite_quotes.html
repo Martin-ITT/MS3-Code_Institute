@@ -26,14 +26,14 @@
                         {% if not session.user %}
                         <!-- display like section when no user logged in -->
                         <!-- display on small and med screen -->
-                        <div class="col s5 offset-s1 show-on-medium-and-down hide-on-large-only">
+                        <div class="col s6 offset-s1 show-on-medium-and-down hide-on-large-only">
                             <div class="row">
                                 <a href="{{ url_for('login') }}" class="col s10 offset-s1 btn-large text-shadow">
                                     Log In
                                 </a>
                             </div>
                         </div>
-                        <div class="col s5 show-on-medium-and-down hide-on-large-only">
+                        <div class="col s6 show-on-medium-and-down hide-on-large-only">
                             <div class="row">
                                 <div class="col s10 offset-s1 btn-large text-shadow">
                                     {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
@@ -48,7 +48,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col s5 hide-on-med-and-down">
+                        <div class="col s6 hide-on-med-and-down">
                             <div class="row">
                                 <div class="col s10 offset-s3 btn-large text-shadow">
                                     {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
@@ -59,47 +59,47 @@
                         <!-- display like section when user logged in -->
                         {% if session.user %}
                         <!-- display on small and medium -->
-                        <div class="col s5 show-on-medium-and-down hide-on-large-only">
+                        <div class="col s6 show-on-medium-and-down hide-on-large-only">
                             <div class="row">
                                 <!-- user already liked quote -->
                                 {% if session['user'] in quote.users_liked %}
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     <i class="fas fa-heart red-text"></i>
                                 </div>
                                 {% else %}
                                 <!-- user already has not liked yet -->
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     <i class="fas fa-heart white-text"></i>
                                 </div>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="col s5 right show-on-medium-and-down hide-on-large-only">
+                        <div class="col s6 right show-on-medium-and-down hide-on-large-only">
                             <div class="row">
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
                                 </div>
                             </div>
                         </div>
                         <!-- display on large -->
-                        <div class="col s5 hide-on-med-and-down">
+                        <div class="col s6 hide-on-med-and-down">
                             <div class="row">
                                 <!-- user already liked quote -->
                                 {% if session['user'] in quote.users_liked %}
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     <i class="fas fa-heart red-text"></i>
                                 </div>
                                 {% else %}
                                 <!-- user already has not liked yet -->
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     <i class="fas fa-heart white-text"></i>
                                 </div>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="col s5 right hide-on-med-and-down">
+                        <div class="col s6 right hide-on-med-and-down">
                             <div class="row">
-                                <div class="col s8 offset-s2 btn-large text-shadow">
+                                <div class="col s10 offset-s1 btn-large text-shadow">
                                     {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
                                 </div>
                             </div>

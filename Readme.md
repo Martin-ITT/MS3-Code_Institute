@@ -94,6 +94,12 @@ password change - check for error messages
 email validator checked for empty input, valid email address and not to be more than 120 char
 session cookie test - user logged / registered in
 
+update quote - problem with likes
+delete quote
+
+quote counter when new quote inserted
+
+
 registration checked for same user name
 registration checked for same email address (diferent names)
 
@@ -105,3 +111,4 @@ references
 wtf forms https://www.youtube.com/watch?v=vzaXBm-ZVOQ
 form validation https://stackabuse.com/flask-form-validation-with-flask-wtf
 password comlexity https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
+https://stackoverflow.com/questions/26105804/extract-month-from-date-in-python/26105888

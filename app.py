@@ -78,6 +78,7 @@ def update_quote_counter():
         {'_id': quote_counter['_id']}, {'$set': {'id': counter_value}})
 """
 
+
 # index route
 @app.route("/")
 @app.route("/get_index")
@@ -327,7 +328,7 @@ def add_quote():
         
         # insert user into database
         mongo.db.quotes.insert_one(quote)
-        # update_quote_counter()
+        flash("Quote added")
         return redirect(url_for("my_quotes", username=session['user']))
         
     return render_template("add_quote.html", form=form)
@@ -344,7 +345,6 @@ def change_quote(quote_id):
         
         # dictionary of input values for mongo 
         submit = {
-            "quote_id": quote['quote_id'],
             "latin_text": form.latin_text.data.lower(),
             "english_text": form.english_text.data.lower(),
             "added_by": session['user'],
