@@ -68,15 +68,6 @@ class AddQuoteForm(FlaskForm):
             message='Text must be between  %(min)d and %(max)d characters \
                 long.')])
     author = StringField('author')
-"""
-def update_quote_counter():
-    
-    quote_counter = mongo.db.quote_counter.find_one()
-    counter_value = int(quote_counter['id'])
-    counter_value += 1
-    mongo.db.quote_counter.update_one(
-        {'_id': quote_counter['_id']}, {'$set': {'id': counter_value}})
-"""
 
 
 # index route
@@ -90,14 +81,25 @@ def get_index():
 # all quotes route
 @app.route("/get_all_quotes")
 def get_all_quotes():
-    quotes = mongo.db.quotes.find()
-    return render_template("quotes.html", quotes=quotes)
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find()
+    
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+    return render_template("quotes.html", quotes=quotes, authors=authors)
 
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
     query = request.form.get("query")
     quotes = mongo.db.quotes.find({"$text": {"$search": query}})
+    
     return render_template("quotes.html", quotes=quotes)
     
     
@@ -166,7 +168,6 @@ def register():
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
         # flash("cookie: {}".format(session['user']))
-        
         return redirect(url_for('profile', username=session['user']))
         
     return render_template("register.html", form=form)
@@ -229,7 +230,6 @@ def change_password():
     # POST method
     if form.validate_on_submit():
         # flash("current user: {}".format(username))
-        
         # check if password match
         if check_password_hash(username["user_password"], \
             form.current_password.data):
