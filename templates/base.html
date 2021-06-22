@@ -29,6 +29,9 @@
                         <li><a href="{{ url_for('my_quotes', username=session['user']) }}">My Quotes</a></li>
                         <li><a href="{{ url_for('favourite_quotes', username=session['user']) }}">Favourite Quotes</a></li>
                         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+                        {% if session.user == 'admin' %}
+                            <li><a href="{{ url_for('profile', username=session['user']) }}">Test</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Log In</a></li>
@@ -76,7 +79,7 @@
     {% block content %}
     {% endblock %}
     </main>
-
+    <div class="divider"></div>
     <!-- footer -->
     <footer class="page-footer indigo">
         <div class="footer-copyright">
