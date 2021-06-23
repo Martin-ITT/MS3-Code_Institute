@@ -97,7 +97,7 @@ session cookie test - user logged / registered in
 update quote - problem with likes
 delete quote
 
-quote counter when new quote inserted
+check admin session
 
 
 registration checked for same user name
@@ -112,3 +112,4 @@ wtf forms https://www.youtube.com/watch?v=vzaXBm-ZVOQ
 form validation https://stackabuse.com/flask-form-validation-with-flask-wtf
 password comlexity https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
 https://stackoverflow.com/questions/26105804/extract-month-from-date-in-python/26105888
+https://stackoverflow.com/questions/28968660/how-to-convert-a-pymongo-cursor-cursor-into-a-dict

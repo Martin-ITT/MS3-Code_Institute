@@ -67,7 +67,19 @@ class AddQuoteForm(FlaskForm):
         'english_text', validators=[DataRequired(), Length( min=3, max=150, \
             message='Text must be between  %(min)d and %(max)d characters \
                 long.')])
-    author = StringField('author')
+    author = StringField('author', validators=[DataRequired()])
+
+# add author form
+class AddAuthorForm(FlaskForm):
+    author_name = StringField('latin_text', validators=[DataRequired(), Length(
+        min=3, max=150, message='Phrase must be between \
+            %(min)d and %(max)d characters long')])
+    era_lived = StringField(
+        'english_text', validators=[DataRequired(), Length( min=3, max=150, \
+            message='Text must be between  %(min)d and %(max)d characters \
+                long.')])
+    description = StringField('description', validators=[DataRequired()])
+    img = StringField('img', validators=[DataRequired()])
 
 
 # index route
@@ -95,6 +107,7 @@ def get_all_quotes():
     return render_template("quotes.html", quotes=quotes, authors=authors)
 
 
+# search bar
 @app.route("/search", methods=["GET", "POST"])
 def search():
     query = request.form.get("query")
@@ -123,6 +136,129 @@ def remove_from_favourites():
     mongo.db.quotes.update_one({'_id': ObjectId(id)}, {'$pull': {'users_liked': username}})
     
     return redirect(url_for('get_all_quotes'))
+
+
+# user's quotes route
+@app.route("/my_qoutes/<username>")
+def my_quotes(username):
+    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find()
+    
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+    
+    return render_template("my_quotes.html", user_name=username, quotes=quotes, authors=authors)
+
+
+# user's favourite quotes route
+@app.route("/favourite_quotes/<username>")
+def favourite_quotes(username):
+    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find()
+    
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+    
+    return render_template("favourite_quotes.html", user_name=username, quotes=quotes, authors=authors)
+
+
+# today's qoute route
+@app.route("/todays_qoute")
+def todays_quote():
+    quotes = mongo.db.quotes.find()
+    day = datetime.datetime.now().day
+    
+    return render_template("todays_quote.html", quotes=quotes, day=day)
+
+
+# random qoute route
+@app.route("/random_qoute")
+def random_quote():
+    quotes = mongo.db.quotes.find()
+    random_id = random.randint(quotes.count())
+    
+    return render_template("random_quote.html", quotes=quotes, random_id=random_id)
+
+
+# add qoute route
+@app.route("/add_quote", methods=["GET", "POST"])
+def add_quote():
+    # refer to registration form
+    form = AddQuoteForm()
+    
+    # POST method
+    if form.validate_on_submit():
+        
+        # dictionary of input values for mongo 
+        quote = {
+            "latin_text": form.latin_text.data.lower(),
+            "english_text": form.english_text.data.lower(),
+            "added_by": session['user'],
+            "author": form.author.data.lower(),
+            "users_liked": [""]
+        }
+        
+        # insert user into database
+        mongo.db.quotes.insert_one(quote)
+        flash("Quote added")
+        return redirect(url_for("my_quotes", username=session['user']))
+        
+    return render_template("add_quote.html", form=form)
+
+
+# update quote
+@app.route("/change_quote/<quote_id>", methods=["GET", "POST"])
+def change_quote(quote_id):
+    form = AddQuoteForm()
+    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    
+    # POST method
+    if form.validate_on_submit():
+        
+        # dictionary of input values for mongo 
+        submit = {
+            "latin_text": form.latin_text.data.lower(),
+            "english_text": form.english_text.data.lower(),
+            "added_by": session['user'],
+            "author": form.author.data.lower(),
+            "users_liked": quote['users_liked']
+        }
+        
+        # insert user into database
+        mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
+        flash("Quote updated")
+        return redirect(url_for("my_quotes", username=session['user']))
+    
+    return render_template("change_quote.html", quote=quote, form=form)
+
+
+# delete quote page route
+@app.route("/delete_quote_page/<quote_id>", methods=['GET','POST'])
+def delete_quote_page(quote_id):
+    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    return render_template("delete_quote_page.html", quote=quote)
+
+
+# delete quote funcionality
+@app.route("/delete_quote/<quote_id>")
+def delete_quote(quote_id):
+    flash("Quote deleted")
+    mongo.db.quotes.delete_one({"_id": ObjectId(quote_id)})
+    return redirect(url_for("my_quotes", username=session['user']))
 
 
 # user registration
@@ -272,110 +408,83 @@ def delete_user():
     mongo.db.users.delete_one({"user_name": session["user"]})
     return redirect(url_for("logout"))
 
-# user's quotes route
-@app.route("/my_qoutes/<username>")
-def my_quotes(username):
-    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
-    quotes = mongo.db.quotes.find()
+
+# admin's authors page
+@app.route("/authors")
+def authors():
+    authors = mongo.db.authors.find()
+    # internal server error
+    if session['user'] == 'admin':
+        return render_template("authors.html", authors=authors)
     
-    return render_template("my_quotes.html", user_name=username, quotes=quotes)
+    return render_template("index.html")
 
-
-# user's favourite quotes route
-@app.route("/favourite_quotes/<username>")
-def favourite_quotes(username):
-    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
-    quotes = mongo.db.quotes.find()
-    
-    return render_template("favourite_quotes.html", user_name=username, quotes=quotes)
-
-
-# today's qoute route
-@app.route("/todays_qoute")
-def todays_quote():
-    quotes = mongo.db.quotes.find()
-    day = datetime.datetime.now().day
-    
-    return render_template("todays_quote.html", quotes=quotes, day=day)
-
-
-# random qoute route
-@app.route("/random_qoute")
-def random_quote():
-    quotes = mongo.db.quotes.find()
-    random_id = random.randint(quotes.count())
-    
-    return render_template("random_quote.html", quotes=quotes, random_id=random_id)
-
-
-# add qoute route
-@app.route("/add_quote", methods=["GET", "POST"])
-def add_quote():
-    # refer to registration form
-    form = AddQuoteForm()
+# add author route
+@app.route("/add_author", methods=["GET", "POST"])
+def add_author():
+    # refer to form
+    form = AddAuthorForm()
     
     # POST method
     if form.validate_on_submit():
         
         # dictionary of input values for mongo 
-        quote = {
-            "latin_text": form.latin_text.data.lower(),
-            "english_text": form.english_text.data.lower(),
-            "added_by": session['user'],
-            "author": form.author.data.lower(),
-            "users_liked": [""]
-        }
+        author = {
+            "author_name": form.author_name.data.lower(),
+            "era_lived": form.era_lived.data.lower(),
+            "description": form.description.data.lower(),
+            "img": form.img.data,
+            }
         
-        # insert user into database
-        mongo.db.quotes.insert_one(quote)
-        flash("Quote added")
-        return redirect(url_for("my_quotes", username=session['user']))
+        # insert author into database
+        mongo.db.authors.insert_one(author)
+        flash("Author added")
+        return redirect(url_for("authors", username=session['user']))
         
-    return render_template("add_quote.html", form=form)
+    return render_template("add_author.html", form=form)
 
 
-# update quote
-@app.route("/change_quote/<quote_id>", methods=["GET", "POST"])
-def change_quote(quote_id):
-    form = AddQuoteForm()
-    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+# update author
+@app.route("/change_author/<author_id>", methods=["GET", "POST"])
+def change_author(author_id):
+    form = AddAuthorForm()
+    author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
     
     # POST method
     if form.validate_on_submit():
         
         # dictionary of input values for mongo 
         submit = {
-            "latin_text": form.latin_text.data.lower(),
-            "english_text": form.english_text.data.lower(),
-            "added_by": session['user'],
-            "author": form.author.data.lower(),
-            "users_liked": quote['users_liked']
+            "author_name": form.author_name.data.lower(),
+            "era_lived": form.era_lived.data.lower(),
+            "description": form.description.data.lower(),
+            "img": form.img.data,
         }
         
         # insert user into database
-        mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
-        flash("Quote updated")
-        return redirect(url_for("my_quotes", username=session['user']))
+        mongo.db.authors.update({"_id": ObjectId(author_id)}, submit)
+        flash("Author updated")
+        return redirect(url_for("authors"))
     
-    return render_template("change_quote.html", quote=quote, form=form)
+    return render_template("change_author.html", author=author, form=form)
 
 
-# delete quote page route
-@app.route("/delete_quote_page/<quote_id>", methods=['GET','POST'])
-def delete_quote_page(quote_id):
-    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
-    return render_template("delete_quote_page.html", quote=quote)
+# delete author page route
+@app.route("/delete_author_page/<author_id>", methods=['GET','POST'])
+def delete_author_page(author_id):
+    author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
+    return render_template("delete_author_page.html", author=author)
 
 
-# delete quote funcionality
-@app.route("/delete_quote/<quote_id>")
-def delete_quote(quote_id):
-    flash("Quote deleted")
-    mongo.db.quotes.delete_one({"_id": ObjectId(quote_id)})
-    return redirect(url_for("my_quotes", username=session['user']))
+# delete author funcionality
+@app.route("/delete_author/<author_id>")
+def delete_author(author_id):
+    flash("Author deleted")
+    mongo.db.authors.delete_one({"_id": ObjectId(author_id)})
+    return redirect(url_for("authors"))
 
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=True)
+            debug=False)

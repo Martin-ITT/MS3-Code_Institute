@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- page title for smal / med&lrg displays -->
+<h3 class="center-align indigo-text hide-on-small-only">Change author</h3>
+<h4 class="center-align indigo-text hide-on-med-and-up">Change auhtor</h4>
+
+    <!-- change author form -->
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel indigo center-align">
+                <div class="row">
+                    <form class="col s12" method="POST" action="{{ url_for('change_author', author_id=author._id) }}">
+                        {{ form.csrf_token }}
+                        <!-- name -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-user-graduate prefix white-text"></i>
+                                {{ form.author_name(class="form-input small-input", value=author.author_name) }}
+                                <ul>
+                                    {% for error in form.author_name.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- era lived -->
+                        <div class="row">
+                            <div class=" input-field col s12 left-align">
+                                <i class="fas fa-calendar-alt prefix white-text"></i>
+                                {{ form.era_lived(class="form-input small-input", value=author.era_lived) }}
+                                <ul>
+                                    {% for error in form.era_lived.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- description -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-info-circle prefix white-text"></i>
+                                {{ form.description(class="form-input small-input", value=author.description) }}
+                                <ul>
+                                    {% for error in form.description.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- img -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-images prefix white-text"></i>
+                                {{ form.img(class="form-input small-input", value=author.img) }}
+                                <ul>
+                                    {% for error in form.img.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a href="{{ url_for('authors') }}" class="col s4 offset-s1 btn-large text-shadow">
+                            Cancel <i class="fas fa-backspace"></i>
+                            </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                            Save author <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

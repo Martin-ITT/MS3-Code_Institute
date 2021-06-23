@@ -1,52 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3 class="center-align indigo-text hide-on-small-only">{{ user_name.capitalize() }}'s quote - added by</h3>
-    <h4 class="center-align indigo-text hide-on-med-and-up">{{ user_name.capitalize() }}'s quote - added by</h4>
+    <h3 class="center-align indigo-text hide-on-small-only">Manage authors</h3>
+    <h4 class="center-align indigo-text hide-on-med-and-up">Manage authors</h4>
 
     <div class="row">
         <div class="col s10 offset-s1">
             <div class="card-panel indigo center-align">
-                <a href="{{ url_for('add_quote') }}" class="center-align btn">Add quote</a>
+                <a href="{{ url_for('add_author') }}" class="center-align btn">Add author</a>
             </div>
         </div>
     </div>
 
-    {% for quote in quotes %}
-    {% if quote.added_by == user_name.lower() %}
+    {% for author in authors %}
+    
     <div class="container grey lighten-5" id="my-card">
         <div class="row">
             <div class="col s12">
                 <div class="col s4">
-                    {% for author in authors %}
-                    {% if quote.author|lower() in author.author_name|lower() %}
-                        <img id="side-image"
+                    <img id="side-image"
                             src="{{ author.img }}">
-                    {% endif %}
-                    {% endfor %}
                 </div>
                 <div class="col s8 push-down-col">
                     <div class="card-action">
-                        <p class="center-align indigo-text text-break">"{{ quote.latin_text.title()|censor }}"</p>
+                        <p class="left-align indigo-text text-break">Name: {{ author.author_name }}</p>
                     </div>
                     <hr>
                     <div class="card-action">
-                        <p class="center-align indigo-text text-break">"{{ quote.english_text.title()|censor }}"</p>
+                        <p class="left-align indigo-text text-break">Era lived: {{ author.era_lived }}</p>
                     </div>
                     <hr>
                     <div class="card-action">
-                        <p class="right-align indigo-text text-break">Author: {{ quote.author.title()|censor }}</p>
-                    </div>
-                    <hr>
-                    <div class="card-action">
-                        <p class="right-align indigo-text text-break">Added by: {{ quote.added_by.title()|censor }}</p>
+                        <p class="left-align indigo-text text-break">Description: {{ author.description }}</p>
                     </div>
                 </div>
             </div>
             <!-- display edit section -->
             <div class="col s6">
                 <div class="row">
-                    <a href="{{ url_for('change_quote', quote_id=quote._id) }}"
+                    <a href="{{ url_for('change_author', author_id=author._id) }}"
                         class="col s10 offset-s1 btn-large text-shadow">
                         Edit <i class="fas fa-edit"></i>
                     </a>
@@ -54,7 +46,7 @@
             </div>
             <div class="col s6">
                 <div class="row">
-                    <a href="{{ url_for('delete_quote_page', quote_id=quote._id) }}"
+                    <a href="{{ url_for('delete_author_page', author_id=author._id) }}"
                         class="col s10 offset-s1 btn-large text-shadow">
                         Delete <i class="fas fa-trash-alt"></i>
                     </a>
@@ -62,7 +54,7 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    
     {% endfor %}
 
 {% endblock %}

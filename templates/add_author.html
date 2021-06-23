@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="center-align indigo-text hide-on-small-only">Add quote</h3>
+<h4 class="center-align indigo-text hide-on-med-and-up">Add quote</h4>
+
+    <!-- add quote form -->
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel indigo center-align">
+                <div class="row">
+                    <form class="col s12" method="POST" action="{{ url_for('add_author') }}">
+                        {{ form.csrf_token }}
+                        <!-- latin -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-user-graduate prefix white-text"></i>
+                                {{ form.author_name(placeholder="Author name") }}
+                                <ul>
+                                    {% for error in form.author_name.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- english -->
+                        <div class="row">
+                            <div class=" input-field col s12 left-align">
+                                <i class="fas fa-calendar-alt prefix white-text"></i>
+                                {{ form.era_lived(placeholder="Era lived") }}
+                                <ul>
+                                    {% for error in form.era_lived.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- author -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-info-circle prefix white-text"></i>
+                                {{ form.description(placeholder="Description") }}
+                                <ul>
+                                    {% for error in form.description.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- img -->
+                        <div class="row">
+                            <div class="input-field col s12 left-align">
+                                <i class="fas fa-images prefix white-text"></i>
+                                {{ form.img(placeholder="Img url") }}
+                                <ul>
+                                    {% for error in form.img.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- display buttons on small -->
+                        <div class="row hide-on-med-and-up">
+                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow">
+                                <i class="fas fa-backspace"></i>
+                                </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                        <!-- display buttons on med and large -->
+                        <div class="row hide-on-small-only">
+                            <a href="{{ url_for('authors') }}" class="col s4 offset-s1 btn-large text-shadow">
+                                Cancel <i class="fas fa-backspace"></i>
+                                </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                                Add author <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
