@@ -56,8 +56,7 @@
                 <div class="col s4">
                     {% for author in authors %}
                     {% if quote.author|lower() in author.author_name|lower() %}
-                        <img id="side-image"
-                            src="{{ author.img }}">
+                        <img id="side-image" src="{{ author.img }}">
                     {% endif %}
                     {% endfor %}
                 </div>

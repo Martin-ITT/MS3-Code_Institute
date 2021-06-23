@@ -110,20 +110,31 @@ def get_all_quotes():
 # search bar
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    authors_c = mongo.db.authors.find()
     query = request.form.get("query")
-    quotes = mongo.db.quotes.find({"$text": {"$search": query}})
+    quotes_c = mongo.db.quotes.find({"$text": {"$search": query}})
     
-    return render_template("quotes.html", quotes=quotes)
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+        
+    return render_template("quotes.html", quotes=quotes, authors=authors)
     
     
 # add quote to favourites
 @app.route("/add_to_favourites", methods=['POST'])
 def add_to_favourites():
     
-    username = request.args.get('username')
-    id = request.args.get('id')
-    mongo.db.quotes.update_one({'_id': ObjectId(
-        id)}, {'$push': {'users_liked': username}}, upsert = True)
+    if session['user']:
+        username = request.args.get('username')
+        id = request.args.get('id')
+        mongo.db.quotes.update_one({'_id': ObjectId(
+            id)}, {'$push': {'users_liked': username}}, upsert = True)
     
     return redirect(url_for('get_all_quotes'))
 
@@ -131,9 +142,11 @@ def add_to_favourites():
 @app.route("/remove_from_favourites", methods=['POST'])
 def remove_from_favourites():
     
-    username = request.args.get('username')
-    id = request.args.get('id')
-    mongo.db.quotes.update_one({'_id': ObjectId(id)}, {'$pull': {'users_liked': username}})
+    if session['user']:
+        username = request.args.get('username')
+        id = request.args.get('id')
+        mongo.db.quotes.update_one(
+            {'_id': ObjectId(id)}, {'$pull': {'users_liked': username}})
     
     return redirect(url_for('get_all_quotes'))
 
@@ -197,25 +210,26 @@ def random_quote():
 # add qoute route
 @app.route("/add_quote", methods=["GET", "POST"])
 def add_quote():
-    # refer to registration form
-    form = AddQuoteForm()
-    
-    # POST method
-    if form.validate_on_submit():
+    if session['user']:
+        # refer to registration form
+        form = AddQuoteForm()
         
-        # dictionary of input values for mongo 
-        quote = {
-            "latin_text": form.latin_text.data.lower(),
-            "english_text": form.english_text.data.lower(),
-            "added_by": session['user'],
-            "author": form.author.data.lower(),
-            "users_liked": [""]
-        }
-        
-        # insert user into database
-        mongo.db.quotes.insert_one(quote)
-        flash("Quote added")
-        return redirect(url_for("my_quotes", username=session['user']))
+        # POST method
+        if form.validate_on_submit():
+            
+            # dictionary of input values for mongo 
+            quote = {
+                "latin_text": form.latin_text.data.lower(),
+                "english_text": form.english_text.data.lower(),
+                "added_by": session['user'],
+                "author": form.author.data.lower(),
+                "users_liked": [""]
+            }
+            
+            # insert user into database
+            mongo.db.quotes.insert_one(quote)
+            flash("Quote added")
+            return redirect(url_for("my_quotes", username=session['user']))
         
     return render_template("add_quote.html", form=form)
 
@@ -223,42 +237,46 @@ def add_quote():
 # update quote
 @app.route("/change_quote/<quote_id>", methods=["GET", "POST"])
 def change_quote(quote_id):
-    form = AddQuoteForm()
-    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
-    
-    # POST method
-    if form.validate_on_submit():
+    if session['user']:
+        form = AddQuoteForm()
+        quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
         
-        # dictionary of input values for mongo 
-        submit = {
-            "latin_text": form.latin_text.data.lower(),
-            "english_text": form.english_text.data.lower(),
-            "added_by": session['user'],
-            "author": form.author.data.lower(),
-            "users_liked": quote['users_liked']
-        }
+        # POST method
+        if form.validate_on_submit():
+            
+            # dictionary of input values for mongo 
+            submit = {
+                "latin_text": form.latin_text.data.lower(),
+                "english_text": form.english_text.data.lower(),
+                "added_by": session['user'],
+                "author": form.author.data.lower(),
+                "users_liked": quote['users_liked']
+            }
+            
+            # insert user into database
+            mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
+            flash("Quote updated")
+            return redirect(url_for("my_quotes", username=session['user']))
         
-        # insert user into database
-        mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
-        flash("Quote updated")
-        return redirect(url_for("my_quotes", username=session['user']))
-    
     return render_template("change_quote.html", quote=quote, form=form)
 
 
 # delete quote page route
 @app.route("/delete_quote_page/<quote_id>", methods=['GET','POST'])
 def delete_quote_page(quote_id):
-    quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    if session['user']:
+        quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
+    
     return render_template("delete_quote_page.html", quote=quote)
 
 
 # delete quote funcionality
 @app.route("/delete_quote/<quote_id>")
 def delete_quote(quote_id):
-    flash("Quote deleted")
-    mongo.db.quotes.delete_one({"_id": ObjectId(quote_id)})
-    return redirect(url_for("my_quotes", username=session['user']))
+    if session['user']:
+        flash("Quote deleted")
+        mongo.db.quotes.delete_one({"_id": ObjectId(quote_id)})
+        return redirect(url_for("my_quotes", username=session['user']))
 
 
 # user registration
@@ -346,12 +364,10 @@ def login():
 # user profile route
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    
-    # find user name in mongo using session cookie. [only user_name]
-    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
-    
     #only render if session cookie exist
     if session['user']:
+        # find user name in mongo using session cookie. [only user_name]
+        username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
         # first to be retrieved on html, second from previous line
         return render_template("profile.html", user_name=username)
     
@@ -361,24 +377,26 @@ def profile(username):
 # change password
 @app.route("/change_password", methods=["GET", "POST"])
 def change_password():
-    form = ChangePasswordForm()
-    username = mongo.db.users.find_one({"user_name": session["user"]})
-    # POST method
-    if form.validate_on_submit():
-        # flash("current user: {}".format(username))
-        # check if password match
-        if check_password_hash(username["user_password"], \
-            form.current_password.data):
-            flash("Password updated!")
-            # generate new password hash
-            new_password = generate_password_hash(form.new_password.data, \
-                method='pbkdf2:sha512:52000', salt_length=16)
-            mongo.db.users.update_one({'user_name': username['user_name']}, \
-                {"$set" :{'user_password': new_password}})
-        
-        else:
-            flash("Password not changed - incorrect old pasword provided!")
-        return redirect(url_for('profile', username=session['user']))
+    #only render if session cookie exist
+    if session['user']:
+        form = ChangePasswordForm()
+        username = mongo.db.users.find_one({"user_name": session["user"]})
+        # POST method
+        if form.validate_on_submit():
+            # flash("current user: {}".format(username))
+            # check if password match
+            if check_password_hash(username["user_password"], \
+                form.current_password.data):
+                flash("Password updated!")
+                # generate new password hash
+                new_password = generate_password_hash(form.new_password.data, \
+                    method='pbkdf2:sha512:52000', salt_length=16)
+                mongo.db.users.update_one({'user_name': username['user_name']}, \
+                    {"$set" :{'user_password': new_password}})
+            
+            else:
+                flash("Password not changed - incorrect old pasword provided!")
+            return redirect(url_for('profile', username=session['user']))
 
     return render_template("change_password.html", form=form)
 
@@ -396,8 +414,9 @@ def logout():
 # delete user account page route
 @app.route("/delete_page")
 def delete_page():
-    
-    return render_template("delete_page.html")
+    #only render if session cookie exist
+    if session['user']:
+        return render_template("delete_page.html")
 
 
 # delete user account funcionality
@@ -417,29 +436,27 @@ def authors():
     if session['user'] == 'admin':
         return render_template("authors.html", authors=authors)
     
-    return render_template("index.html")
 
 # add author route
 @app.route("/add_author", methods=["GET", "POST"])
 def add_author():
-    # refer to form
-    form = AddAuthorForm()
-    
-    # POST method
-    if form.validate_on_submit():
-        
-        # dictionary of input values for mongo 
-        author = {
-            "author_name": form.author_name.data.lower(),
-            "era_lived": form.era_lived.data.lower(),
-            "description": form.description.data.lower(),
-            "img": form.img.data,
-            }
-        
-        # insert author into database
-        mongo.db.authors.insert_one(author)
-        flash("Author added")
-        return redirect(url_for("authors", username=session['user']))
+    if session['user'] == 'admin':
+        # refer to form
+        form = AddAuthorForm()
+        # POST method
+        if form.validate_on_submit():
+            # dictionary of input values for mongo 
+            author = {
+                "author_name": form.author_name.data.lower(),
+                "era_lived": form.era_lived.data.lower(),
+                "description": form.description.data.lower(),
+                "img": form.img.data,
+                }
+            
+            # insert author into database
+            mongo.db.authors.insert_one(author)
+            flash("Author added")
+            return redirect(url_for("authors", username=session['user']))
         
     return render_template("add_author.html", form=form)
 
@@ -447,24 +464,23 @@ def add_author():
 # update author
 @app.route("/change_author/<author_id>", methods=["GET", "POST"])
 def change_author(author_id):
-    form = AddAuthorForm()
-    author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
-    
-    # POST method
-    if form.validate_on_submit():
-        
-        # dictionary of input values for mongo 
-        submit = {
-            "author_name": form.author_name.data.lower(),
-            "era_lived": form.era_lived.data.lower(),
-            "description": form.description.data.lower(),
-            "img": form.img.data,
-        }
-        
-        # insert user into database
-        mongo.db.authors.update({"_id": ObjectId(author_id)}, submit)
-        flash("Author updated")
-        return redirect(url_for("authors"))
+    if session['user'] == 'admin':
+        form = AddAuthorForm()
+        author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
+        # POST method
+        if form.validate_on_submit():
+            # dictionary of input values for mongo 
+            submit = {
+                "author_name": form.author_name.data.lower(),
+                "era_lived": form.era_lived.data.lower(),
+                "description": form.description.data.lower(),
+                "img": form.img.data,
+            }
+            
+            # insert user into database
+            mongo.db.authors.update({"_id": ObjectId(author_id)}, submit)
+            flash("Author updated")
+            return redirect(url_for("authors"))
     
     return render_template("change_author.html", author=author, form=form)
 
@@ -472,13 +488,17 @@ def change_author(author_id):
 # delete author page route
 @app.route("/delete_author_page/<author_id>", methods=['GET','POST'])
 def delete_author_page(author_id):
-    author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
-    return render_template("delete_author_page.html", author=author)
+    if session['user'] == 'admin':
+        author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
+        return render_template("delete_author_page.html", author=author)
 
 
 # delete author funcionality
 @app.route("/delete_author/<author_id>")
 def delete_author(author_id):
+    if not session['user'] == 'admin':
+        render_template("error_500.html")
+        
     flash("Author deleted")
     mongo.db.authors.delete_one({"_id": ObjectId(author_id)})
     return redirect(url_for("authors"))
