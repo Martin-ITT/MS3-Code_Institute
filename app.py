@@ -494,14 +494,26 @@ def delete_author_page(author_id):
 
 
 # delete author funcionality
-@app.route("/delete_author/<author_id>")
+@app.route("/delete_author/<author_id>/")
 def delete_author(author_id):
-    if not session['user'] == 'admin':
-        render_template("error_500.html")
-        
-    flash("Author deleted")
-    mongo.db.authors.delete_one({"_id": ObjectId(author_id)})
-    return redirect(url_for("authors"))
+    if session['user'] == 'admin':
+        flash("Author deleted")
+        mongo.db.authors.delete_one({"_id": ObjectId(author_id)})
+        return redirect(url_for("authors"))
+
+
+@app.errorhandler(404)
+def page_not_found(err):
+        error_msg = err
+        flash("This is weird. It is not here!")
+        return render_template("error_404.html", error_msg=error_msg)
+
+
+@app.errorhandler(500)
+def server_error(err):
+    error_msg = err
+    flash("Something's not quite right.")
+    return render_template("error_500.html", error_msg=error_msg)
 
 
 if __name__ == "__main__":

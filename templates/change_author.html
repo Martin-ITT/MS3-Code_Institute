@@ -60,7 +60,18 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- cancel / save btns -->
+                        <!-- small screen -->
+                        <div class="row hide-on-med-and-up">
+                            <a href="{{ url_for('authors') }}" class="col s4 offset-s1 btn-large text-shadow">
+                            <i class="fas fa-backspace"></i>
+                            </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                            <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <!-- med & lrg screen -->
+                        <div class="row hide-on-small-only">
                             <a href="{{ url_for('authors') }}" class="col s4 offset-s1 btn-large text-shadow">
                             Cancel <i class="fas fa-backspace"></i>
                             </a>
