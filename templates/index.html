@@ -11,7 +11,21 @@
                     <!-- <span class="card-title col s-6 offset-s8 black-text">In Vino Veritas</span> -->
                     </div>
                     <div class="card-content center">
-                    <p>Welcome to - In Vino Veritas. Largest collection of Latin Quotes!</p>
+                        <p class="left-align">{{ day }} / {{ month }} / {{ year }}</p>
+                        <h6 class="center-align">Today's quote:</h6>
+                        {% for quote in quotes %}
+                        {% if loop.index == day %}
+                        <div class="card-action">
+                            <p class="center-align">"{{ quote.latin_text.title()|censor }}"</p>
+                        </div>
+                        <div class="card-action">
+                            <p class="center-align">"{{ quote.english_text.title()|censor }}"</p>
+                        </div>
+                        <div class="card-action">
+                            <p class="right-align">{{ quote.author.title()|censor }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 </div>

@@ -31,9 +31,6 @@ nav .brand-logo {
     margin-bottom: 100px;
     max-height: 0px;
 }
-#push-down {
-    margin-top: 15vh;
-}
 .row {
     margin-bottom: 5px;
 }
@@ -62,6 +59,9 @@ nav .brand-logo {
         width: 50%;
         margin-top: 10%;
         margin-bottom: 10%;
+    }
+    #push-down {
+        margin-top: 10vh;
     }
 }
 @media only screen and (min-width: 1200px) {

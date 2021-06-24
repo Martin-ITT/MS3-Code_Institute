@@ -1,5 +1,7 @@
 $(document).ready(function(){
+    /* mobile navbar */
     $('.sidenav').sidenav();
+    /* error message */
     $('.collapsible').collapsible();
   });
 

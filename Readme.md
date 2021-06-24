@@ -98,7 +98,7 @@ update quote - problem with likes
 delete quote
 
 check admin session
-
+search returned no pics
 
 registration checked for same user name
 registration checked for same email address (diferent names)

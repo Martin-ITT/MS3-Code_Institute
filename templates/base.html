@@ -21,7 +21,6 @@
                 <a href="{{ url_for('get_index') }}" class="brand-logo"><i class="fas fa-wine-bottle"></i>In Vino Veritas</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars"></i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="{{ url_for('todays_quote') }}">Today's Quote</a></li>
                     <li><a href="{{ url_for('random_quote') }}">Random Quote</a></li>
                     <li><a href="{{ url_for('get_all_quotes')}}">All Quotes</a></li>
                     <!-- display only when user logged in -->
@@ -45,7 +44,6 @@
         <ul class="sidenav" id="mobile-demo">
             <li><h4 class="center-align light-blue-text text-darken-4">In Vino Veritas</h4></li>
             <li><a href="{{ url_for('get_index') }}">Home</a></li>
-            <li><a href="{{ url_for('todays_quote') }}">Today's Quote</a></li>
             <li><a href="{{ url_for('random_quote') }}">Random Quote</a></li>
             <li><a href="{{ url_for('get_all_quotes')}}">All Quotes</a></li>
             {% if session.user %}
@@ -89,9 +87,9 @@
             <div class="container">
                 © <span id="year"></span> Vino Veritas
                 {% if session.user %}
-                <a class="grey-text text-lighten-4 right" href="#!">Logged in as {{ session.user.title() }}</a>
+                <span class="grey-text text-lighten-4 right">Logged in as {{ session.user.title() }}</span>
                 {% else %}
-                <a class="grey-text text-lighten-4 right" href="#!">No user logged in</a>
+                <span class="grey-text text-lighten-4 right">No user logged in</span>
                 {% endif %}
             </div>
         </div>

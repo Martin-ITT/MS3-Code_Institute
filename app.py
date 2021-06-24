@@ -86,8 +86,12 @@ class AddAuthorForm(FlaskForm):
 @app.route("/")
 @app.route("/get_index")
 def get_index():
-
-    return render_template("index.html")
+    quotes = mongo.db.quotes.find()
+    day = datetime.datetime.now().day
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    
+    return render_template("index.html", quotes=quotes, day=day, month=month, year=year)
 
 
 # all quotes route
@@ -187,15 +191,6 @@ def favourite_quotes(username):
         quotes.append(object)
     
     return render_template("favourite_quotes.html", user_name=username, quotes=quotes, authors=authors)
-
-
-# today's qoute route
-@app.route("/todays_qoute")
-def todays_quote():
-    quotes = mongo.db.quotes.find()
-    day = datetime.datetime.now().day
-    
-    return render_template("todays_quote.html", quotes=quotes, day=day)
 
 
 # random qoute route
@@ -519,4 +514,4 @@ def server_error(err):
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)

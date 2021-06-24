@@ -47,12 +47,23 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
-                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow">
+                        <!-- submit / cancel section -->
+                        <!-- small screen -->
+                        <div class="row hide-on-med-and-up">
+                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow red">
+                            <i class="fas fa-backspace"></i>
+                            </a>
+                            <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
+                            <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                        <!-- med & lrg screen -->
+                        <div class="row hide-on-small-only">
+                            <a href="{{ url_for('my_quotes', username=session['user']) }}" class="col s4 offset-s1 btn-large text-shadow red">
                             Cancel <i class="fas fa-backspace"></i>
                             </a>
                             <button type="submit" class="col s4 offset-s2 btn-large text-shadow">
-                            Save quote <i class="fas fa-edit"></i>
+                            Save <i class="fas fa-save"></i>
                             </button>
                         </div>
                     </form>
