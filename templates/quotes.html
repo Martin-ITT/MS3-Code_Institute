@@ -47,34 +47,72 @@
             </div>
         </div>
     </div>
-
-    <!-- card with text -->
+    <!-- sort by -->
+    <div class="row">
+        <div class="col s12 m10 offset-m1 indigo-text">
+            Sort by:
+            <a href="{{ url_for('get_sorted_by_names') }}" class="indigo-text">A-Z</a>
+            /
+            <a href="{{ url_for('get_sorted_by_favourite') }}" class="indigo-text">Rating</a>
+            /
+            <a href="{{ url_for('get_sorted_by_newest') }}" class="indigo-text">Newest</a>
+        </div>
+    </div>
+    <!-- card with picture and text -->
     {% for quote in quotes %}
     <div class="container grey lighten-5" id="my-card">
         <div class="row">
-            <div class="col s12">
-                <div class="col s4">
+            <!-- small screen -->
+            <div class="col s12 hide-on-med-and-up">
+                <div class="col s12">
                     {% for author in authors %}
                     {% if quote.author|lower() in author.author_name|lower() %}
                         <img id="side-image" src="{{ author.img }}">
                     {% endif %}
                     {% endfor %}
                 </div>
-                <div class="col s8 push-down-col">
+                <div class="col s12 push-down-col">
                     <div class="card-action">
-                        <p class="center-align indigo-text text-break">"{{ quote.latin_text.title()|censor }}"</p>
+                        <p class="left-align indigo-text text-break">"{{ quote.latin_text.title()|censor }}"</p>
                     </div>
                     <hr>
                     <div class="card-action">
-                        <p class="center-align indigo-text text-break">"{{ quote.english_text.title()|censor }}"</p>
+                        <p class="left-align indigo-text text-break">"{{ quote.english_text.title()|censor }}"</p>
                     </div>
                     <hr>
                     <div class="card-action">
-                        <p class="right-align indigo-text text-break">Author: {{ quote.author.title()|censor }}</p>
+                        <p class="left-align indigo-text text-break">Author: {{ quote.author.title()|censor }}</p>
                     </div>
                     <hr>
                     <div class="card-action">
-                        <p class="right-align indigo-text text-break">Added by: {{ quote.added_by.title()|censor }}</p>
+                        <p class="left-align indigo-text text-break">Added by: {{ quote.added_by.title()|censor }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- medium and large screen -->
+            <div class="col s12 hide-on-small-only">
+                <div class="col s4 offset-m1 offset-l2">
+                    {% for author in authors %}
+                    {% if quote.author|lower() in author.author_name|lower() %}
+                        <img id="side-image" src="{{ author.img }}">
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col s6 l5 offset-s1 offset-l0 push-down-col">
+                    <div class="card-action">
+                        <p class="left-align indigo-text text-break">"{{ quote.latin_text.title()|censor }}"</p>
+                    </div>
+                    <hr>
+                    <div class="card-action">
+                        <p class="left-align indigo-text text-break">"{{ quote.english_text.title()|censor }}"</p>
+                    </div>
+                    <hr>
+                    <div class="card-action">
+                        <p class="left-align indigo-text text-break">Author: {{ quote.author.title()|censor }}</p>
+                    </div>
+                    <hr>
+                    <div class="card-action">
+                        <p class="left-align indigo-text text-break">Added by: {{ quote.added_by.title()|censor }}</p>
                     </div>
                 </div>
             </div>
@@ -83,22 +121,21 @@
             <!-- display on small and med screen -->
             <div class="col s6 show-on-medium-and-down hide-on-large-only">
                 <div class="row">
-                    <a href="{{ url_for('login') }}" class="col s10 offset-s1 btn-large text-shadow">
+                    <a href="#" class="col s10 offset-s1 btn-large text-shadow">
                         Log In
                     </a>
-                </div>
             </div>
             <div class="col s6 show-on-medium-and-down hide-on-large-only">
                 <div class="row">
                     <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
+                        {{ quote.users_liked|length }} <i class="fas fa-heart white-text"></i>
                     </div>
                 </div>
             </div>
             <!-- large screen -->
             <div class="col s6 hide-on-med-and-down">
                 <div class="row">
-                    <a href="{{ url_for('login') }}" class="col s10 offset-s1 btn-large text-shadow">
+                    <a href="#" class="col s10 offset-s1 btn-large text-shadow">
                         Log In to add favourite <i class="fas fa-check"></i>
                     </a>
                 </div>
@@ -106,7 +143,7 @@
             <div class="col s6 hide-on-med-and-down">
                 <div class="row">
                     <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
+                        {{ quote.users_liked|length }} <i class="fas fa-heart white-text"></i>
                     </div>
                 </div>
             </div>
@@ -138,7 +175,7 @@
             <div class="col s6 right show-on-medium-and-down hide-on-large-only">
                 <div class="row">
                     <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
+                        {{ quote.users_liked|length  }} <i class="fas fa-heart white-text"></i>
                     </div>
                 </div>
             </div>
@@ -167,7 +204,7 @@
             <div class="col s6 right hide-on-med-and-down">
                 <div class="row">
                     <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length -1 }} <i class="fas fa-heart white-text"></i>
+                        {{ quote.users_liked|length }} <i class="fas fa-heart white-text"></i>
                     </div>
                 </div>
             </div>

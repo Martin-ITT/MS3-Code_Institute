@@ -19,53 +19,53 @@ input { /* formm input color*/
     left:0;
     width:100%;
 }
+#side-image {
+    height: 100px;
+    margin-top: 5%;
+    margin-bottom: -5%;
+}
+@media only screen and (min-width: 601px) {
+    #side-image {
+        height: 200px;
+        margin: auto;
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+    #push-down-hero-img {
+        margin-top: 10vh;
+    }
+}
 @media only screen and (min-width: 769px) {
     .fa, .fab, .fad, .fal, .far, .fas {
         line-height: 1; /* 1 @ size 601*/
     }
-nav .brand-logo {
-    font-size: 2.1rem; /* 2. 1*/
+    nav .brand-logo {
+        font-size: 2.1rem; /* 2. 1*/
+        }
     }
-}
-.divider { /* push footer*/
-    margin-bottom: 100px;
-    max-height: 0px;
-}
-.row {
-    margin-bottom: 5px;
-}
-.card-panel {
-    margin-bottom: 5px;
-}
-#my-card {
-    border: 2px solid darkslateblue;
-    border-radius: 2px;
-    margin-top: 5px;
-}
-.text-break {
-    word-break: break-word;
-}
-    #side-image {
-    height: 100px;
-    margin-top: 10%;
-    margin-bottom: 10%;
-}
-.push-down-col {
-    margin-top: 3vh;
-}
-@media only screen and (min-width: 768px) {
-    #side-image {
-        height: auto;
-        width: 50%;
-        margin-top: 10%;
-        margin-bottom: 10%;
+    .divider { /* push footer*/
+        margin-bottom: 100px;
+        max-height: 0px;
     }
-    #push-down {
-        margin-top: 10vh;
+    .row {
+        margin-bottom: 5px;
     }
+    .card-panel {
+        margin-bottom: 5px;
+    }
+    #my-card {
+        border: 2px solid darkslateblue;
+        border-radius: 2px;
+        margin-top: 5px;
+    }
+    .text-break {
+        word-break: break-word;
+    }
+    .push-down-col {
+        margin-top: 1vh;
 }
 @media only screen and (min-width: 1200px) {
     .push-down-col {
-        margin-top: 8vh;
+        margin-top: 2vh;
     }
 }

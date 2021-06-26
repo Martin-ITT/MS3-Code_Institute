@@ -108,6 +108,58 @@ def get_all_quotes():
     quotes = []
     for object in quotes_c:
         quotes.append(object)
+        
+    return render_template("quotes.html", quotes=quotes, authors=authors)
+
+
+# sorted by name quotes route
+@app.route("/get_sorted_by_names")
+def get_sorted_by_names():
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find().sort([('latin_text', 1 )])
+  
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+    return render_template("quotes.html", quotes=quotes, authors=authors)
+
+
+# sorted by favourites quotes route
+@app.route("/get_sorted_by_favourite")
+def get_sorted_by_favourite():
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find().sort("num_of_likes", -1)
+    
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
+    return render_template("quotes.html", quotes=quotes, authors=authors)
+
+
+# sorted by newest quotes route
+@app.route("/get_sorted_by_newest")
+def get_sorted_by_newest():
+    authors_c = mongo.db.authors.find()
+    quotes_c = mongo.db.quotes.find().sort("_id", -1)
+    
+    # convert cursor 
+    authors = []
+    for object in authors_c:
+        authors.append(object)
+        
+    quotes = []
+    for object in quotes_c:
+        quotes.append(object)
     return render_template("quotes.html", quotes=quotes, authors=authors)
 
 
@@ -137,8 +189,13 @@ def add_to_favourites():
     if session['user']:
         username = request.args.get('username')
         id = request.args.get('id')
+        # updeate users list
         mongo.db.quotes.update_one({'_id': ObjectId(
             id)}, {'$push': {'users_liked': username}}, upsert = True)
+        # update num of users
+        mongo.db.quotes.find_one_and_update(
+        {'_id': ObjectId(id)},
+        {'$inc': {'num_of_likes': 1}})
     
     return redirect(url_for('get_all_quotes'))
 
@@ -149,8 +206,14 @@ def remove_from_favourites():
     if session['user']:
         username = request.args.get('username')
         id = request.args.get('id')
+        # remove name from list
         mongo.db.quotes.update_one(
             {'_id': ObjectId(id)}, {'$pull': {'users_liked': username}})
+        # decrease counter
+        # update num of users
+        mongo.db.quotes.find_one_and_update(
+        {'_id': ObjectId(id)},
+        {'$inc': {'num_of_likes': -1}})
     
     return redirect(url_for('get_all_quotes'))
 
@@ -217,8 +280,9 @@ def add_quote():
                 "latin_text": form.latin_text.data.lower(),
                 "english_text": form.english_text.data.lower(),
                 "added_by": session['user'],
+                "num_of_likes": 0,
                 "author": form.author.data.lower(),
-                "users_liked": [""]
+                "users_liked": []
             }
             
             # insert user into database
@@ -244,6 +308,7 @@ def change_quote(quote_id):
                 "latin_text": form.latin_text.data.lower(),
                 "english_text": form.english_text.data.lower(),
                 "added_by": session['user'],
+                "num_of_likes": quote['num_of_likes'],
                 "author": form.author.data.lower(),
                 "users_liked": quote['users_liked']
             }
