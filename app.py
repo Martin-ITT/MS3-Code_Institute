@@ -26,37 +26,47 @@ app.secret_key = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 censor = Censor(app=app)
 
+
 # user registration forms
 class RegistrationForm(FlaskForm):
     user_name = StringField('user_name', validators=[DataRequired(), Length(
         min=5, max=15, message='Name must be between \
             %(min)d and %(max)d characters long')])
     user_password = PasswordField(
-        'user_password', validators=[DataRequired(), Length( min=8, max=20, \
-            message='Password must be between  %(min)d and %(max)d characters \
-                long.')])
-    check_password = PasswordField('check_password', validators=[EqualTo(
-        'user_password', message="Passwords don't match")])
-    user_email = StringField('user_email', validators=[InputRequired(), Email(), \
-        Length(max=120)])
+        'user_password', validators=[DataRequired(), Length(
+            min=8, max=20, message='Password must be between  %(min)d and \
+                %(max)d characters long.')])
+    check_password = PasswordField(
+        'check_password', validators=[EqualTo(
+            'user_password', message="Passwords don't match")])
+    user_email = StringField(
+        'user_email', validators=[InputRequired(), Email(), Length(max=120)])
 
-# user login form  
+
+# user login form
 class LoginForm(FlaskForm):
-    user_name_login = StringField('user_name', validators=[DataRequired(), Length(
-        min=5, max=15, message='Name must be between \
-            %(min)d and %(max)d characters long')])
+    user_name_login = StringField(
+        'user_name', validators=[DataRequired(), Length(
+            min=5, max=15, message='Name must be between \
+                %(min)d and %(max)d characters long')])
     user_password_login = PasswordField(
         'user_password', validators=[DataRequired()])
-    
-# change password form  
+
+
+# change password form
 class ChangePasswordForm(FlaskForm):
-    current_password = PasswordField('current_password', validators=[DataRequired()])
+    current_password = PasswordField(
+        'current_password',
+        validators=[DataRequired()])
     new_password = PasswordField(
-        'new_password', validators=[DataRequired(), Length( min=8, max=20, \
-            message='Password must be between  %(min)d and %(max)d characters \
-                long.')])
-    confirm_new_password = PasswordField('confirm_new_password', validators=[EqualTo(
-        'new_password', message="Passwords don't match")])
+        'new_password', validators=[DataRequired(), Length(
+            min=8, max=20, message='Password must be between \
+                %(min)d and %(max)d characters long.')])
+    confirm_new_password = PasswordField(
+        'confirm_new_password', validators=[EqualTo(
+            'new_password', message="Passwords \
+                don't match")])
+
 
 # add quote form
 class AddQuoteForm(FlaskForm):
@@ -64,20 +74,20 @@ class AddQuoteForm(FlaskForm):
         min=3, max=150, message='Phrase must be between \
             %(min)d and %(max)d characters long')])
     english_text = StringField(
-        'english_text', validators=[DataRequired(), Length( min=3, max=150, \
-            message='Text must be between  %(min)d and %(max)d characters \
-                long.')])
+        'english_text', validators=[DataRequired(), Length(
+            min=3, max=150, message='Text must be between \
+                %(min)d and %(max)d characters long.')])
     author = StringField('author', validators=[DataRequired()])
+
 
 # add author form
 class AddAuthorForm(FlaskForm):
     author_name = StringField('latin_text', validators=[DataRequired(), Length(
         min=3, max=150, message='Phrase must be between \
             %(min)d and %(max)d characters long')])
-    era_lived = StringField(
-        'english_text', validators=[DataRequired(), Length( min=3, max=150, \
-            message='Text must be between  %(min)d and %(max)d characters \
-                long.')])
+    era_lived = StringField('english_text', validators=[DataRequired(), Length(
+        min=3, max=150, message='Text must be between \
+            %(min)d and %(max)d characters long.')])
     description = StringField('description', validators=[DataRequired()])
     img = StringField('img', validators=[DataRequired()])
 
@@ -90,8 +100,13 @@ def get_index():
     day = datetime.datetime.now().day
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
-    
-    return render_template("index.html", quotes=quotes, day=day, month=month, year=year)
+
+    return render_template(
+        "index.html",
+        quotes=quotes,
+        day=day,
+        month=month,
+        year=year)
 
 
 # all quotes route
@@ -99,16 +114,16 @@ def get_index():
 def get_all_quotes():
     authors_c = mongo.db.authors.find()
     quotes_c = mongo.db.quotes.find()
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
-        
+
     return render_template("quotes.html", quotes=quotes, authors=authors)
 
 
@@ -116,13 +131,13 @@ def get_all_quotes():
 @app.route("/get_sorted_by_names")
 def get_sorted_by_names():
     authors_c = mongo.db.authors.find()
-    quotes_c = mongo.db.quotes.find().sort([('latin_text', 1 )])
-  
-    # convert cursor 
+    quotes_c = mongo.db.quotes.find().sort([('latin_text', 1)])
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
@@ -134,12 +149,12 @@ def get_sorted_by_names():
 def get_sorted_by_favourite():
     authors_c = mongo.db.authors.find()
     quotes_c = mongo.db.quotes.find().sort("num_of_likes", -1)
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
@@ -151,12 +166,12 @@ def get_sorted_by_favourite():
 def get_sorted_by_newest():
     authors_c = mongo.db.authors.find()
     quotes_c = mongo.db.quotes.find().sort("_id", -1)
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
@@ -169,40 +184,42 @@ def search():
     authors_c = mongo.db.authors.find()
     query = request.form.get("query")
     quotes_c = mongo.db.quotes.find({"$text": {"$search": query}})
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
-        
+
     return render_template("quotes.html", quotes=quotes, authors=authors)
-    
-    
+
+
 # add quote to favourites
 @app.route("/add_to_favourites", methods=['POST'])
 def add_to_favourites():
-    
+
     if session['user']:
         username = request.args.get('username')
         id = request.args.get('id')
         # updeate users list
-        mongo.db.quotes.update_one({'_id': ObjectId(
-            id)}, {'$push': {'users_liked': username}}, upsert = True)
+        mongo.db.quotes.update_one(
+            {'_id': ObjectId(id)},
+            {'$push': {'users_liked': username}}, upsert=True)
         # update num of users
         mongo.db.quotes.find_one_and_update(
-        {'_id': ObjectId(id)},
-        {'$inc': {'num_of_likes': 1}})
-    
+            {'_id': ObjectId(id)},
+            {'$inc': {'num_of_likes': 1}})
+
     return redirect(url_for('get_all_quotes'))
+
 
 # remove favourite quote
 @app.route("/remove_from_favourites", methods=['POST'])
 def remove_from_favourites():
-    
+
     if session['user']:
         username = request.args.get('username')
         id = request.args.get('id')
@@ -212,48 +229,57 @@ def remove_from_favourites():
         # decrease counter
         # update num of users
         mongo.db.quotes.find_one_and_update(
-        {'_id': ObjectId(id)},
-        {'$inc': {'num_of_likes': -1}})
-    
+            {'_id': ObjectId(id)},
+            {'$inc': {'num_of_likes': -1}})
+
     return redirect(url_for('get_all_quotes'))
 
 
 # user's quotes route
 @app.route("/my_qoutes/<username>")
 def my_quotes(username):
-    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    username = mongo.db.users.find_one(
+        {"user_name": session["user"]})["user_name"]
     authors_c = mongo.db.authors.find()
     quotes_c = mongo.db.quotes.find()
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
-    
-    return render_template("my_quotes.html", user_name=username, quotes=quotes, authors=authors)
+
+    return render_template(
+        "my_quotes.html", user_name=username,
+        quotes=quotes,
+        authors=authors)
 
 
 # user's favourite quotes route
 @app.route("/favourite_quotes/<username>")
 def favourite_quotes(username):
-    username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+    username = mongo.db.users.find_one(
+        {"user_name": session["user"]})["user_name"]
     authors_c = mongo.db.authors.find()
     quotes_c = mongo.db.quotes.find()
-    
-    # convert cursor 
+
+    # convert cursor
     authors = []
     for object in authors_c:
         authors.append(object)
-        
+
     quotes = []
     for object in quotes_c:
         quotes.append(object)
-    
-    return render_template("favourite_quotes.html", user_name=username, quotes=quotes, authors=authors)
+
+    return render_template(
+        "favourite_quotes.html",
+        user_name=username,
+        quotes=quotes,
+        authors=authors)
 
 
 # random qoute route
@@ -261,8 +287,9 @@ def favourite_quotes(username):
 def random_quote():
     quotes = mongo.db.quotes.find()
     random_id = random.randint(quotes.count())
-    
-    return render_template("random_quote.html", quotes=quotes, random_id=random_id)
+
+    return render_template(
+        "random_quote.html", quotes=quotes, random_id=random_id)
 
 
 # add qoute route
@@ -271,11 +298,11 @@ def add_quote():
     if session['user']:
         # refer to registration form
         form = AddQuoteForm()
-        
+
         # POST method
         if form.validate_on_submit():
-            
-            # dictionary of input values for mongo 
+
+            # dictionary of input values for mongo
             quote = {
                 "latin_text": form.latin_text.data.lower(),
                 "english_text": form.english_text.data.lower(),
@@ -284,12 +311,12 @@ def add_quote():
                 "author": form.author.data.lower(),
                 "users_liked": []
             }
-            
+
             # insert user into database
             mongo.db.quotes.insert_one(quote)
             flash("Quote added")
             return redirect(url_for("my_quotes", username=session['user']))
-        
+
     return render_template("add_quote.html", form=form)
 
 
@@ -299,11 +326,11 @@ def change_quote(quote_id):
     if session['user']:
         form = AddQuoteForm()
         quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
-        
+
         # POST method
         if form.validate_on_submit():
-            
-            # dictionary of input values for mongo 
+
+            # dictionary of input values for mongo
             submit = {
                 "latin_text": form.latin_text.data.lower(),
                 "english_text": form.english_text.data.lower(),
@@ -312,21 +339,21 @@ def change_quote(quote_id):
                 "author": form.author.data.lower(),
                 "users_liked": quote['users_liked']
             }
-            
+
             # insert user into database
             mongo.db.quotes.update({"_id": ObjectId(quote_id)}, submit)
             flash("Quote updated")
             return redirect(url_for("my_quotes", username=session['user']))
-        
+
     return render_template("change_quote.html", quote=quote, form=form)
 
 
 # delete quote page route
-@app.route("/delete_quote_page/<quote_id>", methods=['GET','POST'])
+@app.route("/delete_quote_page/<quote_id>", methods=['GET', 'POST'])
 def delete_quote_page(quote_id):
     if session['user']:
         quote = mongo.db.quotes.find_one({"_id": ObjectId(quote_id)})
-    
+
     return render_template("delete_quote_page.html", quote=quote)
 
 
@@ -344,46 +371,48 @@ def delete_quote(quote_id):
 def register():
     # refer to registration form
     form = RegistrationForm()
-    
+
     # POST method
     if form.validate_on_submit():
-        
+
         # check if username exists
         existing_user = mongo.db.users.find_one(
             {"user_name": form.user_name.data.lower()})
-        
+
         # check if email exists
         existing_email = mongo.db.users.find_one(
             {"user_email": form.user_email.data.lower()})
-        
+
         # if username exist
         if existing_user:
             flash("Username already exist")
             return redirect(url_for('register'))
-        
+
         # if email exists
         if existing_email:
             flash("Email address already registered")
             return redirect(url_for('register'))
-        
-        # dictionary of input values for mongo 
+
+        # dictionary of input values for mongo
         register = {
             "user_name": form.user_name.data.lower(),
             "user_email": form.user_email.data.lower(),
-            "user_password": generate_password_hash(form.user_password.data, \
-                method='pbkdf2:sha512:52000', salt_length=16),
+            "user_password": generate_password_hash(
+                form.user_password.data,
+                method='pbkdf2:sha512:52000',
+                salt_length=16),
             "favourite_quotes": ""
         }
-        
+
         # insert user into database
         mongo.db.users.insert_one(register)
-      
+
         # user cookie session
         session["user"] = form.user_name.data.lower()
         flash("User registered succesfully")
         # flash("cookie: {}".format(session['user']))
         return redirect(url_for('profile', username=session['user']))
-        
+
     return render_template("register.html", form=form)
 
 
@@ -391,69 +420,71 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    
-    # on submit check if user exist 
+
+    # on submit check if user exist
     if form.validate_on_submit():
         existing_user = mongo.db.users.find_one(
             {"user_name": form.user_name_login.data.lower()})
-        # flash("user: {}".format(form.user_name_login.data))
-        
+
         if existing_user:
             # check if password match
-            if check_password_hash(existing_user["user_password"], \
-                form.user_password_login.data):
-                
+            if check_password_hash(existing_user["user_password"],
+                                   form.user_password_login.data):
+
                     session["user"] = form.user_name_login.data.lower()
                     flash("Welcome, {}".format(form.user_name_login.data))
                     # flash("cookie: {}".format(session['user']))
-                    return redirect(url_for('profile', username=session['user']))
-            
+                    return redirect(
+                        url_for('profile', username=session['user']))
+
             else:
                 # password dont match
                 flash("Incorrect login details")
                 return redirect(url_for('login'))
-    
+
         else:
             # incorrect username
             flash("Incorrect login details")
             return redirect(url_for('login'))
-            
+
     return render_template("login.html", form=form)
 
 
 # user profile route
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    #only render if session cookie exist
+    # only render if session cookie exist
     if session['user']:
         # find user name in mongo using session cookie. [only user_name]
-        username = mongo.db.users.find_one({"user_name": session["user"]})["user_name"]
+        username = mongo.db.users.find_one(
+            {"user_name": session["user"]})["user_name"]
         # first to be retrieved on html, second from previous line
         return render_template("profile.html", user_name=username)
-    
+
     return redirect(url_for("login"))
 
 
 # change password
 @app.route("/change_password", methods=["GET", "POST"])
 def change_password():
-    #only render if session cookie exist
+    # only render if session cookie exist
     if session['user']:
         form = ChangePasswordForm()
         username = mongo.db.users.find_one({"user_name": session["user"]})
         # POST method
         if form.validate_on_submit():
-            # flash("current user: {}".format(username))
             # check if password match
-            if check_password_hash(username["user_password"], \
-                form.current_password.data):
-                flash("Password updated!")
-                # generate new password hash
-                new_password = generate_password_hash(form.new_password.data, \
-                    method='pbkdf2:sha512:52000', salt_length=16)
-                mongo.db.users.update_one({'user_name': username['user_name']}, \
-                    {"$set" :{'user_password': new_password}})
-            
+            if check_password_hash(username["user_password"],
+                                   form.current_password.data):
+                    flash("Password updated!")
+                    # generate new password hash
+                    new_password = generate_password_hash(
+                        form.new_password.data, method='pbkdf2:sha512:52000',
+                        salt_length=16)
+                    mongo.db.users.update_one(
+                        {'user_name': username['user_name']},
+                        {"$set": {'user_password': new_password}})
+
             else:
                 flash("Password not changed - incorrect old pasword provided!")
             return redirect(url_for('profile', username=session['user']))
@@ -467,14 +498,13 @@ def logout():
     # remove user from cookie session
     flash("You have been logged out")
     session.pop("user")
-    
     return redirect(url_for("login"))
 
 
 # delete user account page route
 @app.route("/delete_page")
 def delete_page():
-    #only render if session cookie exist
+    # only render if session cookie exist
     if session['user']:
         return render_template("delete_page.html")
 
@@ -482,10 +512,11 @@ def delete_page():
 # delete user account funcionality
 @app.route("/delete_user")
 def delete_user():
-    
+
     flash("Account deleted")
+    session.pop("user")
     mongo.db.users.delete_one({"user_name": session["user"]})
-    return redirect(url_for("logout"))
+    return redirect(url_for("register"))
 
 
 # admin's authors page
@@ -495,7 +526,7 @@ def authors():
     # internal server error
     if session['user'] == 'admin':
         return render_template("authors.html", authors=authors)
-    
+
 
 # add author route
 @app.route("/add_author", methods=["GET", "POST"])
@@ -505,19 +536,19 @@ def add_author():
         form = AddAuthorForm()
         # POST method
         if form.validate_on_submit():
-            # dictionary of input values for mongo 
+            # dictionary of input values for mongo
             author = {
                 "author_name": form.author_name.data.lower(),
                 "era_lived": form.era_lived.data.lower(),
                 "description": form.description.data.lower(),
                 "img": form.img.data,
                 }
-            
+
             # insert author into database
             mongo.db.authors.insert_one(author)
             flash("Author added")
             return redirect(url_for("authors", username=session['user']))
-        
+
     return render_template("add_author.html", form=form)
 
 
@@ -529,24 +560,24 @@ def change_author(author_id):
         author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
         # POST method
         if form.validate_on_submit():
-            # dictionary of input values for mongo 
+            # dictionary of input values for mongo
             submit = {
                 "author_name": form.author_name.data.lower(),
                 "era_lived": form.era_lived.data.lower(),
                 "description": form.description.data.lower(),
                 "img": form.img.data,
             }
-            
+
             # insert user into database
             mongo.db.authors.update({"_id": ObjectId(author_id)}, submit)
             flash("Author updated")
             return redirect(url_for("authors"))
-    
+
     return render_template("change_author.html", author=author, form=form)
 
 
 # delete author page route
-@app.route("/delete_author_page/<author_id>", methods=['GET','POST'])
+@app.route("/delete_author_page/<author_id>", methods=['GET', 'POST'])
 def delete_author_page(author_id):
     if session['user'] == 'admin':
         author = mongo.db.authors.find_one({"_id": ObjectId(author_id)})
