@@ -24,6 +24,24 @@ input { /* formm input color*/
     margin-top: 5%;
     margin-bottom: -5%;
 }
+/*  top button */
+#top-btn {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 10px;
+    z-index: 9;
+    outline: none;
+    background-color: darkslateblue;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+#top-btn:hover {
+    background-color: #555;
+}
 @media only screen and (min-width: 601px) {
     #side-image {
         height: 200px;
@@ -41,7 +59,6 @@ input { /* formm input color*/
     }
     nav .brand-logo {
         font-size: 2.1rem; /* 2. 1*/
-        }
     }
     .divider { /* push footer*/
         margin-bottom: 100px;
@@ -63,6 +80,13 @@ input { /* formm input color*/
     }
     .push-down-col {
         margin-top: 1vh;
+    }
+    #top-btn {
+        right: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 12px;
+    }
 }
 @media only screen and (min-width: 1200px) {
     .push-down-col {

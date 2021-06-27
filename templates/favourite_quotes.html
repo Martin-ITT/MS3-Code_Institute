@@ -3,7 +3,7 @@
 
     <h3 class="center-align indigo-text hide-on-small-only">{{ user_name.capitalize() }}'s quote - favourite</h3>
     <h4 class="center-align indigo-text hide-on-med-and-up">{{ user_name.capitalize() }}'s quote - favourite</h4>
-
+    
     {% for quote in quotes %}
     {% if session['user'] in quote.users_liked %}
     <div class="container grey lighten-5" id="my-card">
