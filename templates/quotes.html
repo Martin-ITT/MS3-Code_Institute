@@ -3,7 +3,7 @@
 
     <h3 class="center-align indigo-text hide-on-small-only">All quotes</h3>
     <h4 class="center-align indigo-text hide-on-med-and-up">All quotes</h4>
-
+    
     <!-- search bar on small display -->
     <div class="row">
         <div class="col s12 m10 offset-m1 hide-on-med-and-up">
@@ -26,6 +26,7 @@
             </div>
         </div>
     </div>
+
     <!-- search bar on medium and larger -->
     <div class="row">
         <div class="col s12 m10 offset-m1 hide-on-small-only">
@@ -47,6 +48,7 @@
             </div>
         </div>
     </div>
+
     <!-- sort by -->
     <div class="row">
         <div class="col s12 m10 offset-m1 indigo-text">
@@ -58,11 +60,12 @@
             <a href="{{ url_for('get_sorted_by_newest') }}" class="indigo-text">Newest</a>
         </div>
     </div>
+
     <!-- card with picture and text -->
     {% for quote in quotes %}
     <div class="container grey lighten-5" id="my-card">
         <div class="row">
-            <!-- small screen -->
+            <!-- top section small screen -->
             <div class="col s12 hide-on-med-and-up">
                 <div class="col s12">
                     {% for author in authors %}
@@ -89,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <!-- medium and large screen -->
+            <!-- top section medium and large screen -->
             <div class="col s12 hide-on-small-only">
                 <div class="col s4 offset-m1 offset-l2">
                     {% for author in authors %}
@@ -116,14 +119,16 @@
                     </div>
                 </div>
             </div>
+
+            <!-- bottom section no user -->
             {% if not session.user %}
-            <!-- display like section when no user logged in -->
             <!-- display on small and med screen -->
             <div class="col s6 show-on-medium-and-down hide-on-large-only">
                 <div class="row">
-                    <a href="#" class="col s10 offset-s1 btn-large text-shadow">
+                    <a href="{{ url_for('login') }}" class="col s10 offset-s1 btn-large text-shadow">
                         Log In
                     </a>
+                </div>
             </div>
             <div class="col s6 show-on-medium-and-down hide-on-large-only">
                 <div class="row">
@@ -135,7 +140,7 @@
             <!-- large screen -->
             <div class="col s6 hide-on-med-and-down">
                 <div class="row">
-                    <a href="#" class="col s10 offset-s1 btn-large text-shadow">
+                    <a href="{{ url_for('login') }}" class="col s10 offset-s1 btn-large text-shadow">
                         Log In to add favourite <i class="fas fa-check"></i>
                     </a>
                 </div>
@@ -147,70 +152,78 @@
                     </div>
                 </div>
             </div>
+            </div>
+            
             {% endif %}
-            <!-- display like section when user logged in -->
+            <!-- bottom section user logged in -->
             {% if session.user %}
             <!-- display on small and medium -->
             <div class="col s6 show-on-medium-and-down hide-on-large-only">
                 <div class="row">
-                    <!-- user already liked quote -->
-                    {% if session['user'] in quote.users_liked %}
-                    <form action="{{ url_for('remove_from_favourites', username=session['user'], id=quote._id) }}"
-                        method="POST">
-                        <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
-                            <i class="fas fa-heart red-text"></i>
-                        </button>
-                    </form>
-                    {% else %}
-                    <!-- user already has not liked yet -->
-                    <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}"
-                        method="POST">
-                        <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
-                            <i class="fas fa-heart white-text"></i>
-                        </button>
-                    </form>
-                    {% endif %}
+                 
+                        <!-- user already liked quote -->
+                        {% if session['user'] in quote.users_liked %}
+                        <form action="{{ url_for('remove_from_favourites', username=session['user'], id=quote._id) }}"
+                            method="POST">
+                            <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
+                                <i class="fas fa-heart red-text"></i>
+                            </button>
+                        </form>
+                        {% else %}
+                        <!-- user already has not liked yet -->
+                        <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}"
+                            method="POST">
+                            <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
+                                <i class="fas fa-heart white-text"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                  
                 </div>
+            
+
             </div>
-            <div class="col s6 right show-on-medium-and-down hide-on-large-only">
-                <div class="row">
-                    <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length  }} <i class="fas fa-heart white-text"></i>
+                    <div class="col s6 right show-on-medium-and-down hide-on-large-only">
+                        <div class="row">
+                            <div class="col s10 offset-s1 btn-large text-shadow">
+                                {{ quote.users_liked|length  }} <i class="fas fa-heart white-text"></i>
+                            </div>
+                        </div>
                     </div>
+                    <!-- display on large -->
+                    <div class="col s6 hide-on-med-and-down">
+                        <div class="row">
+                <!-- user already liked quote -->
+                {% if session['user'] in quote.users_liked %}
+                <form action="{{ url_for('remove_from_favourites', username=session['user'], id=quote._id) }}"
+                    method="POST">
+                    <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
+                        Remove favourite <i class="fas fa-heart red-text"></i>
+                    </button>
+                </form>
+                {% else %}
+                <!-- user already has not liked yet -->
+                <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}"
+                    method="POST">
+                    <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
+                        Add favourite<i class="fas fa-heart white-text"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col s6 right hide-on-med-and-down">
+            <div class="row">
+                <div class="col s10 offset-s1 btn-large text-shadow">
+                    {{ quote.users_liked|length }} <i class="fas fa-heart white-text"></i>
                 </div>
             </div>
-            <!-- display on large -->
-            <div class="col s6 hide-on-med-and-down">
-                <div class="row">
-                    <!-- user already liked quote -->
-                    {% if session['user'] in quote.users_liked %}
-                    <form action="{{ url_for('remove_from_favourites', username=session['user'], id=quote._id) }}"
-                        method="POST">
-                        <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
-                            Remove favourite <i class="fas fa-heart red-text"></i>
-                        </button>
-                    </form>
-                    {% else %}
-                    <!-- user already has not liked yet -->
-                    <form action="{{ url_for('add_to_favourites', username=session['user'], id=quote._id) }}"
-                        method="POST">
-                        <button type="submit" class="col s10 offset-s1 btn-large text-shadow">
-                            Add favourite<i class="fas fa-heart white-text"></i>
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col s6 right hide-on-med-and-down">
-                <div class="row">
-                    <div class="col s10 offset-s1 btn-large text-shadow">
-                        {{ quote.users_liked|length }} <i class="fas fa-heart white-text"></i>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
+        </div>
+        {% endif %}
+
         </div>
     </div>
     {% endfor %}
+            
     
 {% endblock %}
