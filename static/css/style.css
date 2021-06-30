@@ -19,13 +19,12 @@ input { /* formm input color*/
     left:0;
     width:100%;
 }
-#side-image {
+#side-image { /* inside my-card */
     height: 100px;
     margin-top: 5%;
     margin-bottom: -5%;
 }
-/*  top button */
-#top-btn {
+#top-btn { /* back to top button */
     display: none;
     position: fixed;
     bottom: 80px;
@@ -41,6 +40,15 @@ input { /* formm input color*/
 }
 #top-btn:hover {
     background-color: #555;
+}
+#my-card { /* quote cards */
+    border: 2px solid darkslateblue;
+    border-radius: 2px;
+    margin-top: 5px;
+}
+.divider { /* bottom spacing */
+    margin-bottom: 100px;
+    max-height: 0px;
 }
 @media only screen and (min-width: 601px) {
     #side-image {
@@ -60,20 +68,11 @@ input { /* formm input color*/
     nav .brand-logo {
         font-size: 2.1rem; /* 2. 1*/
     }
-    .divider { /* push footer*/
-        margin-bottom: 100px;
-        max-height: 0px;
-    }
     .row {
         margin-bottom: 5px;
     }
     .card-panel {
         margin-bottom: 5px;
-    }
-    #my-card {
-        border: 2px solid darkslateblue;
-        border-radius: 2px;
-        margin-top: 5px;
     }
     .text-break {
         word-break: break-word;
