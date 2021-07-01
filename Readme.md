@@ -19,14 +19,14 @@
 ![In Vino Veritas](img/Capture.JPG "In Vino Veritas")
 
 Third Milestone project will demonstrate Back End Data Centric Development skills using Python and MongoDB.
-Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and we will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
+Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
 
 
 <span id="ux"></span>
 # 1. UX 👌
 ## 1.1 Strategy 👪
 
-The goal of this project is to provide friendly database of latin quotes for users while they can update it themselves. Professional and resposinve design should attract more people to create an account and extend this project beyond our expectations. 
+The goal of this project is to provide friendly database of latin quotes for users while they can update it themselves. Professional and resposinve design should attract more people to create an account and extend this project beyond my expectations. 
 
 ### User stories
 
@@ -39,7 +39,7 @@ As user I would like to:
 - trust this page where my data will be stored securly
 - log in and log out
 - add, edit and delete my favourite qoutes
-- display a random quote for the day
+- display a quote of the day
 - display my favourite quotes
 - easy navigation menu
 - responsive design for mobile devices
@@ -47,8 +47,8 @@ As user I would like to:
 As a website owner I would like to:
 
  - admin account to be able manage details of authors
- - admin account to be able manage standard user accounts
  - attract users with intuitive design
+ - have the quotes sorted according user needs - name, popularity etc...
 
 
 ## 1.2 Scope 
@@ -72,14 +72,61 @@ From our strategy plan there were few funcionalities identified in order to sati
 
 Front-end
 
-In Vino Veritas will contain structured navbar for easy navigation. Following links will be displayed when no user is logged in. First link Today's quote containig random or selected quote for the day. Second link Quotes will navigate to page displaying all quotes in database and a search bar. Third link will bring user to log in page and fourth will provide user a registration form. Logo in left side of navbar will return to main page with hero image.
-When user is logged in Todays Quote will remain the same. The second page will also contain buttons to add new quote or see users favourites quotes. Third link will read My Quotes where user will find funcionality to add, edit or delete his or her quotes. Fourth link will provide log out funcionality.
-When admin is logged in the navbar will also contain Manage Authors link to maintain the Authors database.
-Same as navbar, every page will display consistent footer with Developer's GitHub link and Copyright section. The right corner will show a name of user who is curently logged in and a delete account function. A message "No user logged in" will read if no active user is looge in.
+In Vino Veritas contains structured navbar for easy navigation. Following links are displayed when no user is logged in. First link - In Vino Veritas - brings user to index page providing quote of the day. Second link - Random Quote displays randomly generated quote every time clicked. Third link - All quotes - navigates to page displaying all quotes in database, sort funcionality, a search bar and how many users likes certain qoute. Third link brings user to log in page and fourth provides the user registration form.
+When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the all quotes page. Fourth link reads - My qoutes - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - Favourite Quotes - return page with quotes which user likes. On the next page - Profile - can users change password or completely delete their account. Last one - Log Out - terminates user session and returnes to Log In page.
+When admin is logged in the navbar also containes Manage Authors link to maintain the Authors database.
+Same as navbar, every page displays consistent footer with Copyright section on a left side. The right corner contains a name of user who is curently logged in. A message "No user logged in" reads if no active user is loged in.
+
+
+Wireframes
+
 
 Back-end
 
-Database will be devided into three main sections. User section will contain user names and hashed  passwords for enhanced security. Quotes section will store a latin version, english translation and name of author if known.  Third section will contain name of authors, era they lived in and brief description.
+Database is devided into three main sections - Users, Quotes and Authors.
+
+### Users
+| Key        |Type of   | Info                          |
+| ---------- |:--------| :-----------------------------|
+| _id | Object ID | MongoDB generated ID |
+| user_name  | String   | Contains user name for log in |
+| user_email | String   | Contains user email address   |
+| user_password | String | Stores hashed user password for log in |
+|
+
+### Quotes
+| Key | Type of | Info |
+|-----|:-------| :----|
+| _id | Object ID | MongoDB generated ID |
+| latin_text | String | Contains latin text of the qoute |
+| english_text | String | Contains english translation |
+| added_by | String | Name of the user who added this qoute - user_name from Users collection |
+| num_of_likes | Int32 | Counter how many users liked this qoute |
+| author | String | Name of author whom the qoute is attributed to |
+| users_liked | Array | Containes user names who liked this qoute - user_name from Users collection |
+|
+
+### Authors
+| Key        |Type of   | Info                          |
+| ---------- |:--------| :-----------------------------|
+| _id | Object ID | MongoDB generated ID |
+| author_name  | String   | Contains name of a famous person |
+| era-lived | String   | Era which this person lived in |
+| description | String | brief description what was the person famous for |
+| img | string | url address of image of the famous person |
+|
+
+Database schema:
+![alt text][dbmodel]
+
+[dbmodel]: https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/Untitled.png "Database schema"
+
+
+ Users, Quotes, Authors. Apart from generated ID, user section stores user names, email addresses and hashed passwords for enhanced security. Quote document consists of six fields - latin text, english text, name of author if known, added by, number of likes counter and an array of user who liked the qoute. Authors section contains name of author, era they lived in, a brief description and a url address for image.
+
+
+
+
 Web content will be rendered using Pyhton with Flask framework.
 
 
@@ -113,3 +160,5 @@ form validation https://stackabuse.com/flask-form-validation-with-flask-wtf
 password comlexity https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
 https://stackoverflow.com/questions/26105804/extract-month-from-date-in-python/26105888
 https://stackoverflow.com/questions/28968660/how-to-convert-a-pymongo-cursor-cursor-into-a-dict
+
+https://dbdiagram.io/d/60ddf0e8dd6a59714828a429
