@@ -77,10 +77,6 @@ When user is logged in the first three links remain the same. There is added fun
 When admin is logged in the navbar also containes Manage Authors link to maintain the Authors database.
 Same as navbar, every page displays consistent footer with Copyright section on a left side. The right corner contains a name of user who is curently logged in. A message "No user logged in" reads if no active user is loged in.
 
-
-Wireframes
-
-
 Back-end
 
 Database is devided into three main sections - Users, Quotes and Authors.
@@ -92,7 +88,7 @@ Database is devided into three main sections - Users, Quotes and Authors.
 | user_name  | String   | Contains user name for log in |
 | user_email | String   | Contains user email address   |
 | user_password | String | Stores hashed user password for log in |
-|
+
 
 ### Quotes
 | Key | Type of | Info |
@@ -104,7 +100,7 @@ Database is devided into three main sections - Users, Quotes and Authors.
 | num_of_likes | Int32 | Counter how many users liked this qoute |
 | author | String | Name of author whom the qoute is attributed to |
 | users_liked | Array | Containes user names who liked this qoute - user_name from Users collection |
-|
+
 
 ### Authors
 | Key        |Type of   | Info                          |
@@ -114,12 +110,29 @@ Database is devided into three main sections - Users, Quotes and Authors.
 | era-lived | String   | Era which this person lived in |
 | description | String | brief description what was the person famous for |
 | img | string | url address of image of the famous person |
-|
+
 
 Database schema:
 ![alt text][dbmodel]
 
 [dbmodel]: https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/Untitled.png "Database schema"
+
+
+
+
+
+Wireframes
+
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
+
+
 
 
  Users, Quotes, Authors. Apart from generated ID, user section stores user names, email addresses and hashed passwords for enhanced security. Quote document consists of six fields - latin text, english text, name of author if known, added by, number of likes counter and an array of user who liked the qoute. Authors section contains name of author, era they lived in, a brief description and a url address for image.
