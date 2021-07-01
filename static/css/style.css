@@ -4,9 +4,6 @@
 nav .brand-logo { /* navbar text overflow */ 
     font-size: 1.3rem; /* 2. 1*/
 }
-.card-panel { /* navbar space */
-    margin-bottom: 5rem;
-}
 input { /* formm input color*/
     color: white;
 }
