@@ -16,7 +16,8 @@
 ### Full Stack Web Development Course
 ### Milestone Project 3 - Data Centric Development
 --------------------------------------
-![In Vino Veritas](img/Capture.JPG "In Vino Veritas")
+
+![In Vino Veritas](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/amIResponsive.JPG "In Vino Veritas")
 
 Third Milestone project will demonstrate Back End Data Centric Development skills using Python and MongoDB.
 Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
@@ -124,12 +125,12 @@ Database schema:
 Wireframes
 
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![No user logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma01_no_user.JPG "No user logged in")
 
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![User logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma02_user_logged.JPG "User logged in")
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![Admin logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma03_admin-logged.JPG "Admin logged in")
 
 
 
