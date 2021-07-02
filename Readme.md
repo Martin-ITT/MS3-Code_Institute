@@ -19,13 +19,13 @@
 
 ![In Vino Veritas](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/amIResponsive.JPG "In Vino Veritas")
 
-Third Milestone project will demonstrate Back End Data Centric Development skills using Python and MongoDB.
+Third Milestone project will demonstrate Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB.
 Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
 
 
 <span id="ux"></span>
 # 1. UX 👌
-## 1.1 Strategy 👪
+## 1.1 Strategy
 
 The goal of this project is to provide friendly database of latin quotes for users while they can update it themselves. Professional and resposinve design should attract more people to create an account and extend this project beyond my expectations. 
 
@@ -73,14 +73,14 @@ From our strategy plan there were few funcionalities identified in order to sati
 
 Front-end
 
-In Vino Veritas contains structured navbar for easy navigation. Following links are displayed when no user is logged in. First link - In Vino Veritas - brings user to index page providing quote of the day. Second link - Random Quote displays randomly generated quote every time clicked. Third link - All quotes - navigates to page displaying all quotes in database, sort funcionality, a search bar and how many users likes certain qoute. Third link brings user to log in page and fourth provides the user registration form.
-When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the all quotes page. Fourth link reads - My qoutes - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - Favourite Quotes - return page with quotes which user likes. On the next page - Profile - can users change password or completely delete their account. Last one - Log Out - terminates user session and returnes to Log In page.
-When admin is logged in the navbar also containes Manage Authors link to maintain the Authors database.
+In Vino Veritas contains structured navbar for easy navigation. Following links are displayed when no user is logged in. First link - *In Vino Veritas* - brings user to index page providing date and quote for the day. Second link - *Random Quote* displays randomly generated quote every time clicked. Third link - *All quotes* - navigates to page displaying all quotes in database, sort funcionality, a search bar. Fourht link brings user to *log in* page and fifth provides the user *registration* form.
+When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the all quotes page. Fourth link reads - *My qoutes* - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - *Favourite Quotes* - returns page with quotes which user likes. The next link - *Profile* - brings users to profile page where they can change password or completely delete their account. Last one - *Log Out* - terminates user session and returnes to Log In page.
+When admin is logged in the navbar also containes *Manage Authors* link to maintain the Authors database.
 Same as navbar, every page displays consistent footer with Copyright section on a left side. The right corner contains a name of user who is curently logged in. A message "No user logged in" reads if no active user is loged in.
 
 Back-end
 
-Database is devided into three main sections - Users, Quotes and Authors.
+Database is divided into three main sections - Users, Quotes and Authors.
 
 ### Users
 | Key        |Type of   | Info                          |
@@ -116,15 +116,14 @@ Database is devided into three main sections - Users, Quotes and Authors.
 Database schema:
 ![alt text][dbmodel]
 
-[dbmodel]: https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/Untitled.png "Database schema"
+[dbmodel]: https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/dbDiagram.png "Database schema"
 
 
 
 
 
 Wireframes
-
-
+ 
 ![No user logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma01_no_user.JPG "No user logged in")
 
 
