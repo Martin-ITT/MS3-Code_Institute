@@ -114,14 +114,17 @@ Database is divided into three main sections - Users, Quotes and Authors.
 
 
 Database schema:
-![alt text][dbmodel]
+![DBmodel]https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/dbDiagram.png "Database schema")
 
-[dbmodel]: https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/dbDiagram.png "Database schema"
+## 1.4 Skeleton
 
-
-
-
-
+The design was built on the hero image of the index page - two glasses of wine and grapes. The color scheme was generated using Accessibility Tools provided by Adobe Color. The color pattern was slightly adjusted for easy use with Materialize framework. Text is displayed in white, black or Indigo color. Help text uses grey color.
+#FFCA28 Materialize Amber lighten-1 / CSS - Gold
+#3FS1BS Materialize Indigo / CSS - Darkslateblue
+#FFFFFF White color
+#26A69A Materialize default button color / CSS - Lightseagreen
+#F44336 Materialize Red / CSS - Tomato
+![Color scheme](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/colorScheme.JPG "Color scheme")
 Wireframes
  
 ![No user logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma01_no_user.JPG "No user logged in")
