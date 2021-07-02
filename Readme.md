@@ -1,8 +1,8 @@
-.<span id="index"></span>
+<span id="index"></span>
 ## Index
  <a href="#project">Project Idea 💁</a>
 1. <a href="#ux">UX 👌</a>
-1. <a href="#features">Features 👍</a>
+1. <a href="#features">Features 🎮</a>
 1. <a href="#technologies">Technologies Used 👉</a>
 1. <a href="#testing">Testing 🔧</a>
 1. <a href="#deployment">Deployment 💥</a>
@@ -18,6 +18,8 @@
 --------------------------------------
 
 ![In Vino Veritas](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/amIResponsive.JPG "In Vino Veritas")
+
+[live website here](https://in-vino-veritas.herokuapp.com/get_index)
 
 Third Milestone project will demonstrate Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB.
 Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
@@ -71,12 +73,19 @@ From our strategy plan there were few funcionalities identified in order to sati
 
 ## 1.3 Structure
 
+Project consist of two main sections. Front end part which is focused at HTML code and design using CSS and Materialize framework.
+Back end part is Data oriented. Data is stored in MongoDB cluster created for this project and accessed through Python app.
+To avoid repeating same HTML code, to enable some logic and to have more control over content the website will be rendered using Pyhton with Flask framework.
+
+## 1.4 Skeleton
+
 Front-end
 
 In Vino Veritas contains structured navbar for easy navigation. Following links are displayed when no user is logged in. First link - *In Vino Veritas* - brings user to index page providing date and quote for the day. Second link - *Random Quote* displays randomly generated quote every time clicked. Third link - *All quotes* - navigates to page displaying all quotes in database, sort funcionality, a search bar. Fourht link brings user to *log in* page and fifth provides the user *registration* form.
 When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the all quotes page. Fourth link reads - *My qoutes* - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - *Favourite Quotes* - returns page with quotes which user likes. The next link - *Profile* - brings users to profile page where they can change password or completely delete their account. Last one - *Log Out* - terminates user session and returnes to Log In page.
 When admin is logged in the navbar also containes *Manage Authors* link to maintain the Authors database.
 Same as navbar, every page displays consistent footer with Copyright section on a left side. The right corner contains a name of user who is curently logged in. A message "No user logged in" reads if no active user is loged in.
+
 
 Back-end
 
@@ -114,36 +123,42 @@ Database is divided into three main sections - Users, Quotes and Authors.
 
 
 Database schema:
-![DBmodel]https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/dbDiagram.png "Database schema")
+![DBmodel](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/dbDiagram.png "Database schema")
 
-## 1.4 Skeleton
+## 1.5 Surface
 
-The design was built on the hero image of the index page - two glasses of wine and grapes. The color scheme was generated using Accessibility Tools provided by Adobe Color. The color pattern was slightly adjusted for easy use with Materialize framework. Text is displayed in white, black or Indigo color. Help text uses grey color.
+The design was built on the hero image of the index page - two glasses of wine and grapes. I tried to experiment with fonts but I found the best result using generic fonts. The color scheme was generated using Accessibility Tools provided by Adobe Color. The color pattern was slightly adjusted for easy use with Materialize framework. Text is displayed in white, black or Indigo color. Help text uses grey color.
 #FFCA28 Materialize Amber lighten-1 / CSS - Gold
+
 #3FS1BS Materialize Indigo / CSS - Darkslateblue
+
 #FFFFFF White color
+
 #26A69A Materialize default button color / CSS - Lightseagreen
+
 #F44336 Materialize Red / CSS - Tomato
+
 ![Color scheme](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/colorScheme.JPG "Color scheme")
-Wireframes
- 
+
+### Wireframes
+
+Wireframes were created usign online tool Figma. Pages will be responsive and layout shall remain the same. First set of wireframes show the website when no user is logged in. A change in navigation can be seen on second picture when a user logs in. There is added funcionality to maintain Authors database when admin is currently logged in.
+
+No user logged in
 ![No user logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma01_no_user.JPG "No user logged in")
 
-
+User logged in
 ![User logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma02_user_logged.JPG "User logged in")
 
+Admin logged in
 ![Admin logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma03_admin-logged.JPG "Admin logged in")
 
+<a href="#index">Back to top ☝️ </a>
+<span id="features"></span>
+
+# 2. Features 🎮
 
 
-
-
- Users, Quotes, Authors. Apart from generated ID, user section stores user names, email addresses and hashed passwords for enhanced security. Quote document consists of six fields - latin text, english text, name of author if known, added by, number of likes counter and an array of user who liked the qoute. Authors section contains name of author, era they lived in, a brief description and a url address for image.
-
-
-
-
-Web content will be rendered using Pyhton with Flask framework.
 
 
 testing
