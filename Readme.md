@@ -1,3 +1,6 @@
+
+![In Vino Veritas](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/amIResponsive.JPG "In Vino Veritas")
+
 <span id="index"></span>
 ## Index
  <a href="#project">Project Idea 💁</a>
@@ -15,13 +18,10 @@
 ## [Code Institute](https://codeinstitute.net)
 ### Full Stack Web Development Course
 ### Milestone Project 3 - Data Centric Development
+[live website here](https://in-vino-veritas.herokuapp.com/get_index)
 --------------------------------------
 
-![In Vino Veritas](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/amIResponsive.JPG "In Vino Veritas")
-
-[live website here](https://in-vino-veritas.herokuapp.com/get_index)
-
-Third Milestone project will demonstrate Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB.
+Third Milestone project demonstrates Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB. The key requirement was to implement CRUD funcionality to the website.
 Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
 
 
@@ -128,15 +128,11 @@ Database schema:
 ## 1.5 Surface
 
 The design was built on the hero image of the index page - two glasses of wine and grapes. I tried to experiment with fonts but I found the best result using generic fonts. The color scheme was generated using Accessibility Tools provided by Adobe Color. The color pattern was slightly adjusted for easy use with Materialize framework. Text is displayed in white, black or Indigo color. Help text uses grey color.
-#FFCA28 Materialize Amber lighten-1 / CSS - Gold
-
-#3FS1BS Materialize Indigo / CSS - Darkslateblue
-
-#FFFFFF White color
-
-#26A69A Materialize default button color / CSS - Lightseagreen
-
-#F44336 Materialize Red / CSS - Tomato
+- #FFCA28 Materialize Amber lighten-1 / CSS - Gold
+- #3FS1BS Materialize Indigo / CSS - Darkslateblue
+- #FFFFFF White color
+- #26A69A Materialize default button color / CSS - Lightseagreen
+- #F44336 Materialize Red / CSS - Tomato
 
 ![Color scheme](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/colorScheme.JPG "Color scheme")
 
@@ -158,8 +154,18 @@ Admin logged in
 
 # 2. Features 🎮
 
-
-
+As mentioned the project contains consistent navbar and a footer. The Navbar is responsive supported with nice slide-out design on smaller screens using Materialize framework. Using Python code navbar links change based on active session when user or admin is logged in. This funcionality is also implemented in footer on a right side. The year in Copyright section is automaticaly updated using JQuery code.
+The index page displays nice hero image and a date. A quote of the day is generated based on the day of the month. 
+When Random Quote link is clicked a random number is generated. This is passed to HTML and matched with loop index to display only one random quote.
+All Quotes page contains a search bar, sort by funcion and quote cards. For the search function latin and english text is indexed. Minimum of three characters must be provided. Quotes can be sort alphabeticaly, by rating or by newest. Each quote card displays latin and english text, author name and user name who added quote to database. If author is in Authors collection, a portrait is displayed. There is a favourite section at the bottom of the card. The left icon provides a link to log in page when no user is logged in. This change to add to / remove from favourites when user is logged in. The right icon displays number of people who liked this quote.
+User can register on appropriate page providing a user name, password which needs to be reentered and an email address. These inputs are validated using WTForms library. Stored password is encrypted using Werkzeug security library. An extra login button is added for convenient login.
+Registered user can gain access on Log In page. User name and password is required.
+Flash messages are used to display certain messages - eg user Log In or Log Out. Again there is extra button which brings user to register page if needed.
+CRUD funcionality is implemented on My Quotes page. User can add new quote, edit or delete quote which was added already.
+Quotes which user liked are displayed on Favourite Quotes.
+Users can also change password or completely delete their accounts in Profile section.
+Admin can also access and maintain Authors database. New author can be added with name, era lived, description and url address for image. Author data can be also modified or author can be deleted.
+Users / admin can log out when they no longer wish to work with database.
 
 testing
 registration form
