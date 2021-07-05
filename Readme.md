@@ -21,15 +21,16 @@
 [live website here](https://in-vino-veritas.herokuapp.com/get_index)
 --------------------------------------
 
-Third Milestone project demonstrates Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB. The key requirement was to implement CRUD funcionality to the website.
-Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and I will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
+Third Milestone project demonstrates Back End Data Centric Development skills using Python, Flask framework with WTForms and MongoDB. The key requirement was to connect to a database and implement CRUD (Create, Read, Update and Delete) funcionality to the website.
+
+Inspiration for "In Vino Veritas" was sourced from wisdom found in Latin Quotes. These are very popular around many people and this project will try to spread these out even further. It will not only gather the most famous quotes but it also aims to be the largest collection as users can add their favourite ones too. 
 
 
 <span id="ux"></span>
 # 1. UX 👌
 ## 1.1 Strategy
 
-The goal of this project is to provide friendly database of latin quotes for users while they can update it themselves. Professional and resposinve design should attract more people to create an account and extend this project beyond my expectations. 
+The goal of this project is to provide friendly database of latin quotes for users while they can update it themselves. Professional and resposinve design should attract more people to create an account and extend this project beyond its expectations. 
 
 ### User stories
 
@@ -39,19 +40,20 @@ As user I would like to:
 
 - view popular latin quotes and their authors
 - create and delete an account
-- trust this page where my data will be stored securly
+- trust this page where my data will be stored securely
 - log in and log out
-- add, edit and delete my favourite qoutes
+- add, edit and delete my favourite quotes
 - display a quote of the day
 - display my favourite quotes
 - easy navigation menu
 - responsive design for mobile devices
+- have the quotes sorted by name, popularity etc...
 
 As a website owner I would like to:
 
  - admin account to be able manage details of authors
  - attract users with intuitive design
- - have the quotes sorted according user needs - name, popularity etc...
+ - hide inappropriate content
 
 
 ## 1.2 Scope 
@@ -61,29 +63,31 @@ From our strategy plan there were few funcionalities identified in order to sati
 - welcoming main page
 - appropriate navigation
 - responsive design
-- page with latin qoutes content and search function
+- page with latin quotes content and search function
 - user page to add, update, display and delete quotes
 - user page with favourite quotes
 - admin access to maintain the database
 - registration page, log in page
 - database model
 - database of users
-- databes of authors and a database of quotes
-- back-end feature to access our data for CRUD funcionality
+- database of authors and a database of quotes
+- back-end feature to access our data for CRUD functionality
 
 ## 1.3 Structure
 
 Project consist of two main sections. Front end part which is focused at HTML code and design using CSS and Materialize framework.
 Back end part is Data oriented. Data is stored in MongoDB cluster created for this project and accessed through Python app.
-To avoid repeating same HTML code, to enable some logic and to have more control over content the website will be rendered using Pyhton with Flask framework.
+To avoid repeating same HTML code, to enable some logic and to have more control over content the website will be rendered using Pyhton based Flask framework and Jinja2 templating language.
 
 ## 1.4 Skeleton
 
 Front-end
 
 In Vino Veritas contains structured navbar for easy navigation. The Logo and text - In Vino Veritas is a link to index page. Following links are displayed when no user is logged in. First link - *In Vino Veritas* - brings user to index page providing date and quote for the day. Second link - *Random Quote* displays randomly generated quote every time clicked. Third link - *All quotes* - navigates to page displaying all quotes in database, sort funcionality, a search bar. Fourht link brings user to *log in* page and fifth provides the user *registration* form.
-When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the all quotes page. Fourth link reads - *My qoutes* - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - *Favourite Quotes* - returns page with quotes which user likes. The next link - *Profile* - brings users to profile page where they can change password or completely delete their account. Last one - *Log Out* - terminates user session and returnes to Log In page.
-When admin is logged in the navbar also containes *Manage Authors* link to maintain the Authors database.
+
+When user is logged in the first three links remain the same. There is added funcionality for user to like or unlike quote on the All Quotes page. Fourth link reads - *My qoutes* - which displays qoutes added by user. Add a new qoute, edit and delete funcionality is also on the same page. Fifth link - *Favourite Quotes* - returns page with quotes which user likes. The next link - *Profile* - brings users to profile page where they can change password or completely delete their account. Last one - *Log Out* - terminates user session and returnes to Log In page.
+
+When admin is logged in the navbar also contains *Manage Authors* link to maintain the Authors database.
 Same as navbar, every page displays consistent footer with Copyright section on a left side. The right corner contains a name of user who is curently logged in. A message "No user logged in" reads if no active user is loged in.
 
 
@@ -109,7 +113,7 @@ Database is divided into three main sections - Users, Quotes and Authors.
 | added_by | String | Name of the user who added this qoute - user_name from Users collection |
 | num_of_likes | Int32 | Counter how many users liked this qoute |
 | author | String | Name of author whom the qoute is attributed to |
-| users_liked | Array | Containes user names who liked this qoute - user_name from Users collection |
+| users_liked | Array | Containes user names who liked this quote - user_name from Users collection |
 
 
 ### Authors
@@ -130,15 +134,15 @@ Database schema:
 The design was built on the hero image of the index page - two glasses of wine and grapes. I tried to experiment with fonts but I found the best result using generic fonts. The color scheme was generated using Accessibility Tools provided by Adobe Color. The color pattern was slightly adjusted for easy use with Materialize framework. Text is displayed in white, black or Indigo color. Help text uses grey color.
 - #FFCA28 Materialize Amber lighten-1 / CSS - Gold
 - #3FS1BS Materialize Indigo / CSS - Darkslateblue
-- #FFFFFF White color
-- #26A69A Materialize default button color / CSS - Lightseagreen
+- #FFFFFF White colour
+- #26A69A Materialize default button colour / CSS - Lightseagreen
 - #F44336 Materialize Red / CSS - Tomato
 
 ![Color scheme](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/colorScheme.JPG "Color scheme")
 
 ### Wireframes
 
-Wireframes were created usign online tool Figma. Pages will be responsive and layout shall remain the same. First set of wireframes show the website when no user is logged in. A change in navigation can be seen on second picture when a user logs in. There is added funcionality to maintain Authors database when admin is currently logged in.
+Wireframes were created usign online tool Figma. Pages will be responsive and layout shall remain the same on diferent screens. First set of wireframes shows the website when no user is logged in. A change in navigation bar can be seen on second picture when a user logs in. There is added funcionality to maintain Authors database when admin is currently logged in.
 
 No user logged in
 ![No user logged in](https://github.com/Martin-ITT/MS3-Code_Institute/blob/main/static/img/figma01_no_user.JPG "No user logged in")
@@ -158,18 +162,18 @@ Admin logged in
 
 As mentioned the project contains consistent navbar and a footer. The Navbar is responsive supported with nice slide-out feature on smaller screens using Materialize framework. Using Python code navbar links change based on active session when user or admin is logged in. This funcionality is also implemented in footer on a right side where logged in user name is displayed. The year in Copyright section is automaticaly updated using JQuery code. There is also Back to top button on each page if user scrolls down more than 300 px.
 
-If an internal or server error occurs, special page is returned with a flash message explaining something went worng or content can't be found. This can happen if no user is logged in and tries to access a site which can be only accessed by logged user. This is added security feature checking session status. More details about the error can be obtained when clicking the error status bar.
+If an internal or server error occurs, special page is returned with a flash message explaining something went worng or content can't be found. This can happen if no user is logged in and tries to access a site which can be only accessed by logged user or page is not available any more. This is added security feature checking session status. More details about the error can be obtained when clicking the error status bar.
 
 The index page displays nice hero image and a current date. A quote of the day is generated based on the day of the month.
 
 When Random Quote link is clicked a random number is generated. This is matched with loop index of quotes to display only one random quote.
 
-All Quotes page contains a search bar, sort by funcion and quote cards. User can search in both latin and english version of text as only these are indexed.  Minimum of three characters must be provided. Quotes can be sort alphabeticaly, by rating or by newest. Quotes are displayed on cards. Each quote card reads latin and english text, author name and user name who added quote to database. If author is in Authors collection, a portrait is displayed. Offensive language is censored using flask_censor. There is a favourite section at the bottom of the card. The left icon provides a link to log in page when no user is logged in. This change to add to / remove from favourites when user is logged in. Hearth icon changes from white to red if user liked the quote. The right icon displays number of people who liked this quote.
+All Quotes page contains a search bar, sort by funcion and quote cards. User can search in both latin and english version of text as only these are indexed.  Minimum of three characters must be provided. Quotes can be sort alphabeticaly, by rating or by newest. Quotes are displayed on cards. Each quote card reads latin and english text, author name and user name who added quote to database. If author is in Authors collection, a portrait is displayed. Offensive language is censored using flask_censor. There is a favourite section at the bottom of the card. The left icon provides a link to log in page when no user is logged in. This changes to add to / remove from favourites when user is logged in. Hearth icon changes from white to red if user liked the quote. The right icon displays number of people who liked this quote.
 
 User can create account on register page providing a user name, password which needs to be confirmed and an email address. These inputs are validated using WTForms library. For enhanced security stored password is encrypted using Werkzeug security library. An extra login button is added for convenient login from registration page.
 
 Registered user can gain access on Log In page. User name and password is required.
-Flash messages are used to display certain messages - eg user Log In or Log Out. Again there is extra button which brings user to register page if needed.
+Flash messages are used to display certain messages - e.g. user Log In or Log Out. Again, there is extra button which brings user to register page if needed.
 
 CRUD funcionality is implemented on My Quotes page. User can add new quote, edit or delete quote which was added already. To add new quote, latin text, english text and author name is required. Convenient feature is added when user wants to change the quote previous text is displayed for easier editing. When deleting qoute, user is prompted to confirm if they realy wants to delete that quote.
 
@@ -184,12 +188,12 @@ Users / admin can log out when they no longer wish to work with database.
 # 2.2 To be implemented
 
 Few more features were identified which could be implemented. Blog / user forum could be added to share experience and opinions about latin wisdom. User could be able to upload their picture to promote design. A validation for strong passwords to enhance security and in a case user forget password account recovery function would be handy.
-Admin account could also provide funcionality to control all quotes in a database and also to control user accounts, eg to be able suspend user who post inapropriate content.
+Admin account could also provide funcionality to control all quotes in a database and also to control user accounts, e.g. to be able suspend user who post inapropriate content.
  
 <a href="#index">Back to top ☝️ </a>
 <span id="technologies"></span>
 
-# 3. Technologies Used 👉
+# 3. Technologies Used 🎡
 
 ## 3.1 Languages
 
@@ -201,14 +205,14 @@ Some HTML elements were styled using CSS
 
 - JavaScript / Jquery
 Jquery was used for following features:
-    Drag out mobile menu, ollapsible server error messages, year auto update in footer and back to top button.
+    Drag out mobile menu, collapsible server error messages, year auto update in footer and back to top button.
 
 - Python
 This app was build using various python based frameworks, libraries and template engines.
 Flask - python based micro web framework. Web pages are rendered using Flask
 Jinja2 - python based template engine. Together with HTML creates dynamic web content.
 WTForms - library for python to work fast and efficiently with forms.
-Pymongo - library which enables Python code to acces MongoDB
+Pymongo - library which enables Python code to access MongoDB
 
 ## 3.2 Other libraries
 
@@ -219,7 +223,7 @@ Materialize was also used to design most of the content.
 ## 3.3 IDE, Version control and hosting
 
 - Visual Studio Code with Git / GitHub extensions
-Code was written localy using Visual Studio Code and so
+Code was written locally using Visual Studio Code and so
 
 - Git and GitHub
 Version control and repository
@@ -234,7 +238,7 @@ All content is stored in cluster provided by MongoDB
 
 - Figma was used to create wireframes
 
-- Adobe Color was used to identify the color scheme
+- Adobe Color was used to identify the colour scheme
 
 - Am I Responsive was used to create title image for readme.md
 
@@ -245,7 +249,7 @@ All content is stored in cluster provided by MongoDB
 <a href="#index">Back to top ☝️ </a>
 <span id="testing"></span>
 
-# 4. Testing 🔧
+# 4. Testing 💉
 
 ## 4.1 Validation
 
@@ -332,7 +336,7 @@ Text censor was tested and original text was displayed. This is correct as only 
 
 - Favourite Quotes
 
-Five quotes was liked and disliked later to see if correctly displaying on this page. All results were as expected.
+Five quotes were liked and disliked later to see if correctly displaying on this page. All results were as expected.
 
 - Profile
 
@@ -357,7 +361,7 @@ Log out feature was tested. Session cookie has been removed from storage. Error 
 <a href="#index">Back to top ☝️ </a>
 <span id="deployment"></span>
 
-# 5. Deployment
+# 5. Deployment 🔧
 
 Code and other files as images, and other documents are stored in Github repository. Instructions how tu deploy project with Github pages can be found in my previous project [here](https://github.com/Martin-ITT/memoryTesting). At the time of working on this project Github pages does not support generating dynamic content (running a python code).  A cloud application platform Heroku is used to run and operate this project. Heroku is linked with Github repository and automaticaly deployes the most recent version of the code. MongoDB service is used to store all data. 
 
@@ -366,8 +370,8 @@ Heroku deployment guideline
 1. Select Create New app
 1. Provide name and your region and create the app
 1. Select Deploy tab and under deployment method select Connect to GitHub
-1. Find coresponding repository and select Connect
-1. You can enable Automatic Deploys from coresponding branch
+1. Find corresponding repository and select Connect
+1. You can enable Automatic Deploys from corresponding branch
 1. Secret variables from local env<span>.</span>py had to be added to Heroku config variables. This can be found under Settings tab - Reveal Config Vars
 1. Select Open app buton to run the app
 
@@ -389,12 +393,12 @@ MongoDB guideline
 <a href="#index">Back to top ☝️ </a>
 <span id="credits"></span>
 
-# 6. Credits
+# 6. Credits 💳
 
 A big thank belongs to:
 
-- Again to my family
-- Again to Adegbenga Adeye - my mentor, for guidance and feedback on this project
+- Again, to my family
+- Again, to Adegbenga Adeye - my mentor, for guidance and feedback on this project
 - Code Institute team
 - Hero image was downloaded from PxHere
 
