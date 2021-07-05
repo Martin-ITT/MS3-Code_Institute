@@ -183,7 +183,7 @@ Users / admin can log out when they no longer wish to work with database.
 
 # 2.2 To be implemented
 
-Few more features were identified which could be implemented. Blog / user forum could be added to share experience and opinions about latin wisdom. User could be able to upload their picture to promote design. In a case user forget password account recovery function would be handy.
+Few more features were identified which could be implemented. Blog / user forum could be added to share experience and opinions about latin wisdom. User could be able to upload their picture to promote design. A validation for strong passwords to enhance security and in a case user forget password account recovery function would be handy.
 Admin account could also provide funcionality to control all quotes in a database and also to control user accounts, eg to be able suspend user who post inapropriate content.
  
 <a href="#index">Back to top ☝️ </a>
@@ -296,6 +296,7 @@ Login button returns log in page.
 Like / Dislike button was checked and also cross checked in MongoDB users_liked array.
 Number of likes indicator was tested every time a quote was liked or disliked.
 Quote with offensive text was added and censore function was correctly applied.
+When working on the image section of the quote card Pymongo cursors 'quotes' and 'authors' had to be converted into a dictionaries as Jinja would only loop once through second cursor and therefore only one card with picture was returned.
 
 - Register
 
@@ -351,23 +352,61 @@ Delete author feature was tested and selected authors were deleted. Back / cance
 
 - Log out
 
-Log out feature was tested. Session cookie has been removed from storage. Error page is rendered is user tries to access application over browser url line.
+Log out feature was tested. Session cookie has been removed from storage. Error page is rendered is user tries to access application over browser url line. 
 
 <a href="#index">Back to top ☝️ </a>
 <span id="deployment"></span>
 
 # 5. Deployment
 
+Code and other files as images, and other documents are stored in Github repository. Instructions how tu deploy project with Github pages can be found in my previous project [here](https://github.com/Martin-ITT/memoryTesting). At the time of working on this project Github pages does not support generating dynamic content (running a python code).  A cloud application platform Heroku is used to run and operate this project. Heroku is linked with Github repository and automaticaly deployes the most recent version of the code. MongoDB service is used to store all data. 
+
+Heroku deployment guideline
+1. Create Heroku account
+1. Select Create New app
+1. Provide name and your region and create the app
+1. Select Deploy tab and under deployment method select Connect to GitHub
+1. Find coresponding repository and select Connect
+1. You can enable Automatic Deploys from coresponding branch
+1. Secret variables from local env<span>.</span>py had to be added to Heroku config variables. This can be found under Settings tab - Reveal Config Vars
+1. Select Open app buton to run the app
+
+MongoDB guideline
+1. Create MongoDB account
+1. Create New Project
+1. Build a cluster - free cluster was selected for this project
+1. AWS cloud based in Ireland was chosen
+1. When cluster is created click collections
+1. Add your own data
+1. Choose appropriate name for database and also for collection
+1. You can add data / insert documents into DB
+1. Create user / admin account to maintain DB
+1. Configure IP address which can access this DB
+1. Click connect in clusters tab and select connect your application
+1. Select driver and version for your project and copy connection string
+
+
 <a href="#index">Back to top ☝️ </a>
 <span id="credits"></span>
 
-
 # 6. Credits
 
-wtf forms https://www.youtube.com/watch?v=vzaXBm-ZVOQ
-form validation https://stackabuse.com/flask-form-validation-with-flask-wtf
-password comlexity https://stackoverflow.com/questions/16709638/checking-the-strength-of-a-password-how-to-check-conditions#32542964
-https://stackoverflow.com/questions/26105804/extract-month-from-date-in-python/26105888
-https://stackoverflow.com/questions/28968660/how-to-convert-a-pymongo-cursor-cursor-into-a-dict
+A big thank belongs to:
 
-https://dbdiagram.io/d/60ddf0e8dd6a59714828a429
+- Again to my family
+- Again to Adegbenga Adeye - my mentor, for guidance and feedback on this project
+- Code Institute team
+- Hero image was downloaded from PxHere
+
+## 6.1 References
+
+- Hero image was sourced at: https://pxhere.com/en/photo/398923
+
+- Help with WTForms:
+https://www.youtube.com/watch?v=vzaXBm-ZVOQ
+
+- Help with form validation: https://stackabuse.com/flask-form-validation-with-flask-wtf
+
+- Help with date operations: https://stackoverflow.com/questions/26105804/extract-month-from-date-in-python/26105888
+
+- Help to convert returned Pymongo cursor into a dictionary: https://stackoverflow.com/questions/28968660/how-to-convert-a-pymongo-cursor-cursor-into-a-dict
